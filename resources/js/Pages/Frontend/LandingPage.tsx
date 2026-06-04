@@ -1024,8 +1024,8 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
                                 {/* Card WhatsApp (Opsional) */}
                                 {globalSettings.footer_whatsapp && (
                                     <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4">
-                                        <div className="bg-green-500/10 text-green-500 p-3 rounded-xl shrink-0 h-fit">
-                                            <svg className="h-5.5 w-5.5 fill-current" viewBox="0 0 24 24">
+                                        <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
+                                            <svg className="h-[22px] w-[22px] fill-current" viewBox="0 0 24 24">
                                                 <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.333 4.993L2 22l5.233-1.371a9.936 9.936 0 004.777 1.216h.005c5.505 0 9.99-4.478 9.99-9.985C22.007 6.476 17.519 2 12.012 2zm6.757 14.283c-.277.78-1.597 1.526-2.195 1.6-.597.075-1.196.34-3.842-.715-2.646-1.055-4.305-3.766-4.437-3.942-.132-.177-1.077-1.432-1.077-2.729s.677-1.936.92-2.19c.243-.255.53-.32.707-.32a.855.855 0 01.62.292c.176.292.62 1.503.673 1.614.053.11.088.24.017.382-.07.143-.105.23-.212.355-.106.126-.22.28-.318.381-.11.11-.225.23-.097.45.128.22.57 1.012 1.22 1.59.838.745 1.547.975 1.77.1083.22.108.484-.11.61-.27.124-.16.27-.08.41-.03.14.05.885.418 1.037.493.153.076.255.112.293.177.037.065.037.377-.24.783z" />
                                             </svg>
                                         </div>

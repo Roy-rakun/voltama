@@ -353,14 +353,14 @@ export default function FrontendLayout({
                                     onClick={(e) => handleSectionClick(e, 'artikel-sec')}
                                     className="block rounded-xl px-4 py-2.5 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-900 text-[#ffc400]"
                                 >
-                                    Artikel & Edukasi
+                                    Artikel
                                 </a>
                                 <a
                                     href="/#kontak-sec"
                                     onClick={(e) => handleSectionClick(e, 'kontak-sec')}
                                     className="block rounded-xl px-4 py-2.5 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-900 text-[#ffc400]"
                                 >
-                                    Kontak Kami
+                                    Kontak
                                 </a>
                                 <div className="pt-2">
                                     <a
