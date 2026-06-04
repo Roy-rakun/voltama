@@ -14,11 +14,13 @@ class Catalog extends Model
         'image_path',
         'specifications',
         'is_active',
+        'order_position',
     ];
 
     protected $casts = [
         'specifications' => 'array',
         'is_active'      => 'boolean',
+        'order_position' => 'integer',
     ];
 
     public function category()

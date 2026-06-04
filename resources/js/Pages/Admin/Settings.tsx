@@ -19,6 +19,13 @@ interface SettingsProps {
         footer_whatsapp: string;
         footer_powered_by_text: string;
         footer_powered_by_link: string;
+        footer_description: string;
+        footer_tiktok: string;
+        contact_map_iframe: string;
+        contact_description: string;
+        contact_address: string;
+        contact_hours: string;
+        contact_days: string;
     };
     success: string | null;
 }
@@ -40,6 +47,13 @@ export default function Settings({ settings, success }: SettingsProps) {
         footer_whatsapp: settings.footer_whatsapp || '',
         footer_powered_by_text: settings.footer_powered_by_text || '',
         footer_powered_by_link: settings.footer_powered_by_link || '',
+        footer_description: settings.footer_description || '',
+        footer_tiktok: settings.footer_tiktok || '',
+        contact_map_iframe: settings.contact_map_iframe || '',
+        contact_description: settings.contact_description || '',
+        contact_address: settings.contact_address || '',
+        contact_hours: settings.contact_hours || '',
+        contact_days: settings.contact_days || '',
     });
 
     const handleSubmit = (e: FormEvent) => {
@@ -156,6 +170,14 @@ export default function Settings({ settings, success }: SettingsProps) {
                                 </div>
 
                                 <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi Ringkas Footer</label>
+                                    <textarea rows={2} value={data.footer_description} onChange={(e) => setData('footer_description', e.target.value)}
+                                        placeholder="Voltama adalah produsen kabel listrik berkualitas..."
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />
+                                    {errors.footer_description && <div className="mt-1 text-sm text-red-600">{errors.footer_description}</div>}
+                                </div>
+
+                                <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teks Hak Cipta (Copyright)</label>
                                     <input type="text" value={data.footer_copyright} onChange={(e) => setData('footer_copyright', e.target.value)}
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />
@@ -204,6 +226,14 @@ export default function Settings({ settings, success }: SettingsProps) {
                                     {errors.footer_youtube && <div className="mt-1 text-sm text-red-600">{errors.footer_youtube}</div>}
                                 </div>
 
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Tautan TikTok</label>
+                                    <input type="text" value={data.footer_tiktok} onChange={(e) => setData('footer_tiktok', e.target.value)}
+                                        placeholder="https://tiktok.com/@..."
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />
+                                    {errors.footer_tiktok && <div className="mt-1 text-sm text-red-600">{errors.footer_tiktok}</div>}
+                                </div>
+
                                 <div className="md:col-span-2 border-t border-gray-200 dark:border-gray-700 pt-4 mt-2">
                                     <h4 className="text-md font-semibold text-gray-900 dark:text-gray-100 mb-4">Powered By (Sub-Footer)</h4>
                                 </div>
@@ -222,6 +252,74 @@ export default function Settings({ settings, success }: SettingsProps) {
                                     {errors.footer_powered_by_link && <div className="mt-1 text-sm text-red-600">{errors.footer_powered_by_link}</div>}
                                 </div>
 
+                            </div>
+                        </div>
+
+                        {/* ===== SECTION KONTAK & LOKASI ===== */}
+                        <div className="bg-white p-6 shadow sm:rounded-lg dark:bg-gray-800">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Pengaturan Section Kontak & Lokasi Beranda</h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Atur konten untuk section Hubungi Kami/Kontak di halaman beranda, termasuk peta Google Maps embed.</p>
+
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Embed Google Maps (bagian src dari tag iframe)</label>
+                                    <input
+                                        type="text"
+                                        value={data.contact_map_iframe}
+                                        onChange={(e) => setData('contact_map_iframe', e.target.value)}
+                                        placeholder="https://www.google.com/maps/embed?pb=..."
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                    />
+                                    {errors.contact_map_iframe && <div className="mt-1 text-sm text-red-600">{errors.contact_map_iframe}</div>}
+                                </div>
+
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi Kontak</label>
+                                    <textarea
+                                        rows={3}
+                                        value={data.contact_description}
+                                        onChange={(e) => setData('contact_description', e.target.value)}
+                                        placeholder="Hubungi layanan pelanggan kami untuk konsultasi instalasi kelistrikan..."
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                    />
+                                    {errors.contact_description && <div className="mt-1 text-sm text-red-600">{errors.contact_description}</div>}
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Lokasi Kami (Alamat Detail)</label>
+                                    <input
+                                        type="text"
+                                        value={data.contact_address}
+                                        onChange={(e) => setData('contact_address', e.target.value)}
+                                        placeholder="Jl. Raya Maspion No. 12, Sidoarjo"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                    />
+                                    {errors.contact_address && <div className="mt-1 text-sm text-red-600">{errors.contact_address}</div>}
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Hari Operasional</label>
+                                    <input
+                                        type="text"
+                                        value={data.contact_days}
+                                        onChange={(e) => setData('contact_days', e.target.value)}
+                                        placeholder="Senin - Sabtu (Minggu Libur)"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                    />
+                                    {errors.contact_days && <div className="mt-1 text-sm text-red-600">{errors.contact_days}</div>}
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Jam Operasional</label>
+                                    <input
+                                        type="text"
+                                        value={data.contact_hours}
+                                        onChange={(e) => setData('contact_hours', e.target.value)}
+                                        placeholder="08:00 - 17:00 WIB"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                    />
+                                    {errors.contact_hours && <div className="mt-1 text-sm text-red-600">{errors.contact_hours}</div>}
+                                </div>
                             </div>
                         </div>
 

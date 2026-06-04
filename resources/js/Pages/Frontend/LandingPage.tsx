@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, FormEvent } from 'react';
 import {
     ShieldCheck, Award, Zap, Truck, ArrowRight, ArrowLeft,
     Bell, ArrowUpRight, Check, Play, Star, ChevronLeft, ChevronRight, Quote,
-    Package, Globe, BadgeCheck, Clock
+    Package, Globe, BadgeCheck, Clock, Calendar, MapPin, Phone, Mail
 } from 'lucide-react';
 
 interface Catalog {
@@ -253,66 +253,49 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
             ============================================================ */}
             <section
                 id="hero-sec"
-                className="relative overflow-hidden min-h-screen flex items-center"
+                className="relative overflow-hidden w-full bg-[#0c0c0c]"
             >
                 {/* Slider Background Images */}
                 {heroSlides && heroSlides.length > 0 ? (
-                    <>
+                    <div className="relative w-full overflow-hidden">
                         {heroSlides.map((slide, idx) => {
-                            // Alternate Ken Burns directions for variety
-                            const kenBurnsClasses = [
-                                'animate-[kenBurnsZoomIn_20s_ease-in-out_infinite_alternate]',
-                                'animate-[kenBurnsPanRight_22s_ease-in-out_infinite_alternate]',
-                                'animate-[kenBurnsZoomOut_18s_ease-in-out_infinite_alternate]',
-                                'animate-[kenBurnsPanLeft_24s_ease-in-out_infinite_alternate]',
-                            ];
                             return (
                                 <div
                                     key={slide.id}
-                                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                                        idx === heroIdx ? 'opacity-100 z-[1]' : 'opacity-0 z-0'
+                                    className={`w-full transition-opacity duration-1000 ease-in-out ${
+                                        idx === heroIdx ? 'opacity-100 relative z-[1]' : 'opacity-0 absolute inset-0 z-0 pointer-events-none'
                                     }`}
                                 >
-                                    <div
-                                        className={`absolute inset-0 bg-cover bg-left bg-no-repeat will-change-transform ${kenBurnsClasses[idx % kenBurnsClasses.length]}`}
-                                        style={{
-                                            backgroundImage: `url(${slide.image_path})`,
-                                        }}
+                                    <img
+                                        src={slide.image_path}
+                                        alt={slide.title || 'Voltama Hero Slide'}
+                                        className="w-full h-auto object-contain block"
                                     />
                                 </div>
                             );
                         })}
-                    </>
+                    </div>
                 ) : (
                     /* Fallback jika tidak ada slide */
                     <div
-                        className="absolute inset-0"
-                        style={{ background: 'linear-gradient(135deg, #1a1e2e 0%, #2d3348 50%, #ffc400 100%)' }}
+                        className="w-full aspect-[16/9] md:aspect-[21/9] bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
                     />
                 )}
 
                 {/* Dark overlay gradient */}
-                <div className="absolute inset-0 z-[2] bg-gradient-to-t from-black/70 via-black/30 to-black/40 pointer-events-none" />
+                <div className="absolute inset-0 z-[2] bg-gradient-to-t from-black/80 via-black/20 to-black/30 pointer-events-none" />
 
                 {/* Overlay content — judul & deskripsi slide */}
-                <div className="relative z-[3] w-full min-h-screen flex items-end pb-32 md:pb-36 lg:pb-40">
+                <div className="absolute inset-0 z-[3] flex items-end pb-8 sm:pb-12 md:pb-20 lg:pb-28 xl:pb-32 pointer-events-none">
                     <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 2xl:px-32">
-                        {/* Logo */}
-                        <div className="mb-8">
-                            <img
-                                src={globalSettings.website_logo || '/images/logo.png'}
-                                alt="Voltama"
-                                className="h-10 md:h-12 w-auto object-contain brightness-0 invert"
-                            />
-                        </div>
 
-                        {/* Slide Text Content */}
+                        {/* Slide Text Content (Sembunyikan di mobile agar teks bawaan gambar terbaca) */}
                         {heroSlides && heroSlides.length > 0 && (
-                            <div className="max-w-3xl">
+                            <div className="max-w-3xl hidden md:block">
                                 {heroSlides[heroIdx]?.title && (
                                     <h1
                                         key={`title-${heroIdx}`}
-                                        className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.05] tracking-tight mb-4 animate-[slideUp_0.8s_ease-out]"
+                                        className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.05] tracking-tight mb-4 animate-[slideUp_0.8s_ease-out] pointer-events-auto"
                                     >
                                         {heroSlides[heroIdx]?.title}
                                     </h1>
@@ -320,7 +303,7 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
                                 {heroSlides[heroIdx]?.description && (
                                     <p
                                         key={`desc-${heroIdx}`}
-                                        className="text-base md:text-lg text-white/80 leading-relaxed max-w-xl animate-[slideUp_0.8s_ease-out_0.15s_both]"
+                                        className="text-sm md:text-lg text-white/80 leading-relaxed max-w-xl animate-[slideUp_0.8s_ease-out_0.15s_both] pointer-events-auto"
                                     >
                                         {heroSlides[heroIdx]?.description}
                                     </p>
@@ -328,20 +311,20 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
                             </div>
                         )}
 
-                        {/* Dots indicator + Prev/Next */}
+                        {/* Dots indicator + Prev/Next (Tetap interaktif) */}
                         {heroSlidesCount > 1 && (
-                            <div className="flex items-center gap-4 mt-8">
+                            <div className="flex items-center gap-4 mt-4 md:mt-8 pointer-events-auto">
                                 {/* Prev */}
                                 <button
                                     onClick={heroGoPrev}
                                     aria-label="Slide sebelumnya"
-                                    className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-[#ffc400] hover:text-gray-950 hover:border-[#ffc400] transition-all duration-300"
+                                    className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/40 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white hover:bg-[#ffc400] hover:text-gray-950 hover:border-[#ffc400] transition-all duration-300"
                                 >
                                     <ChevronLeft size={18} strokeWidth={2.5} />
                                 </button>
 
                                 {/* Dots */}
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1.5 md:gap-2">
                                     {heroSlides.map((_, idx) => (
                                         <button
                                             key={idx}
@@ -974,6 +957,168 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
                 <div className="absolute right-0 bottom-0 w-80 h-80 opacity-10 dark:opacity-5 pointer-events-none transform translate-x-1/4 z-0 hidden lg:block select-none">
                     <div className="w-full h-full animate-[floating_8s_ease-in-out_infinite]">
                         <img src="/images/1.svg" alt="Voltama Ornament" className="w-full h-full object-contain" />
+                    </div>
+                </div>
+            </section>
+
+            {/* ============================================================
+                SECTION 10: KONTAK & LOKASI
+            ============================================================ */}
+            <section
+                id="kontak-sec"
+                className="observe-section py-24 bg-white dark:bg-[#111111] transition-colors duration-300 relative overflow-hidden"
+            >
+                <div className="mx-auto max-w-7xl px-6 lg:px-10 relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        {/* Kolom Kiri: Detail Info & Jam Operasional */}
+                        <div className="space-y-8 text-left">
+                            <div className="space-y-3">
+                                <div className="w-10 h-1 bg-[#ffc400] rounded-full" />
+                                <h2 className="text-3xl md:text-5xl font-black text-gray-950 dark:text-white leading-tight">
+                                    Hubungi Kami &<br />
+                                    <span className="text-[#ffc400]">Kunjungi Lokasi Kami</span>
+                                </h2>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl">
+                                    {globalSettings.contact_description || 'Kami siap membantu memenuhi kebutuhan kabel listrik premium berstandar SNI untuk proyek Anda. Hubungi tim kami atau kunjungi kantor operasional kami.'}
+                                </p>
+                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Card Lokasi */}
+                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4 md:col-span-2">
+                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
+                                        <MapPin size={22} strokeWidth={2.5} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Lokasi Kami</h4>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                            {globalSettings.contact_address || globalSettings.footer_address || 'Kawasan Industri Maspion, Sidoarjo, Jawa Timur'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Card Hari Operasional */}
+                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4">
+                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
+                                        <Calendar size={22} strokeWidth={2.5} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Hari Operasional</h4>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                            {globalSettings.contact_days || 'Senin - Sabtu (Minggu Libur)'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Card Jam Operasional */}
+                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4">
+                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
+                                        <Clock size={22} strokeWidth={2.5} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Jam Operasional</h4>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                            {globalSettings.contact_hours || '08:00 - 17:00 WIB'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Card WhatsApp (Opsional) */}
+                                {globalSettings.footer_whatsapp && (
+                                    <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4">
+                                        <div className="bg-green-500/10 text-green-500 p-3 rounded-xl shrink-0 h-fit">
+                                            <svg className="h-5.5 w-5.5 fill-current" viewBox="0 0 24 24">
+                                                <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.333 4.993L2 22l5.233-1.371a9.936 9.936 0 004.777 1.216h.005c5.505 0 9.99-4.478 9.99-9.985C22.007 6.476 17.519 2 12.012 2zm6.757 14.283c-.277.78-1.597 1.526-2.195 1.6-.597.075-1.196.34-3.842-.715-2.646-1.055-4.305-3.766-4.437-3.942-.132-.177-1.077-1.432-1.077-2.729s.677-1.936.92-2.19c.243-.255.53-.32.707-.32a.855.855 0 01.62.292c.176.292.62 1.503.673 1.614.053.11.088.24.017.382-.07.143-.105.23-.212.355-.106.126-.22.28-.318.381-.11.11-.225.23-.097.45.128.22.57 1.012 1.22 1.59.838.745 1.547.975 1.77.1083.22.108.484-.11.61-.27.124-.16.27-.08.41-.03.14.05.885.418 1.037.493.153.076.255.112.293.177.037.065.037.377-.24.783z" />
+                                            </svg>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">WhatsApp</h4>
+                                            <a 
+                                                href={`https://wa.me/${globalSettings.footer_whatsapp.replace(/[^0-9]/g, '')}`} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer" 
+                                                className="text-sm text-gray-600 dark:text-gray-400 hover:underline hover:text-[#ffc400] transition block"
+                                            >
+                                                {globalSettings.footer_whatsapp}
+                                            </a>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Card Telepon Kantor (Opsional) */}
+                                {globalSettings.footer_phone && (
+                                    <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4">
+                                        <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
+                                            <Phone size={22} strokeWidth={2.5} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Telepon</h4>
+                                            <a 
+                                                href={`tel:${globalSettings.footer_phone}`} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer" 
+                                                className="text-sm text-gray-600 dark:text-gray-400 hover:underline hover:text-[#ffc400] transition block"
+                                            >
+                                                {globalSettings.footer_phone}
+                                            </a>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Card Email Kantor (Opsional) */}
+                                {globalSettings.footer_email && (
+                                    <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4 md:col-span-2">
+                                        <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
+                                            <Mail size={22} strokeWidth={2.5} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Email Resmi</h4>
+                                            <a 
+                                                href={`mailto:${globalSettings.footer_email}`} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer" 
+                                                className="text-sm text-gray-600 dark:text-gray-400 hover:underline hover:text-[#ffc400] transition block"
+                                            >
+                                                {globalSettings.footer_email}
+                                            </a>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>                          </div>
+                        </div>
+
+                        {/* Kolom Kanan: Google Maps Map Embed */}
+                        <div className="w-full relative h-[320px] md:h-[400px] lg:h-full lg:min-h-[420px]">
+                            {globalSettings.contact_map_iframe ? (
+                                <div className="w-full h-full rounded-[32px] overflow-hidden shadow-2xl border border-gray-150 dark:border-gray-800">
+                                    <iframe
+                                        src={globalSettings.contact_map_iframe}
+                                        className="w-full h-full border-0"
+                                        allowFullScreen
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        title="Google Maps Lokasi Voltama"
+                                    ></iframe>
+                                </div>
+                            ) : (
+                                /* Fallback Default Google Maps */
+                                <div className="w-full h-full rounded-[32px] overflow-hidden shadow-2xl border border-gray-150 dark:border-gray-800">
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15825.867909386348!2d112.7237305!3d-7.4134444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e6a2eb24ab83%3A0x6002f8319f39002!2sKawasan%20Industri%20Maspion!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                                        className="w-full h-full border-0"
+                                        allowFullScreen
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        title="Google Maps Lokasi Voltama Fallback"
+                                    ></iframe>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Decorative Ornament */}
+                <div className="absolute left-0 bottom-0 w-80 h-80 opacity-10 dark:opacity-5 pointer-events-none transform -translate-x-1/4 z-0 hidden lg:block select-none">
+                    <div className="w-full h-full animate-[floating_10s_ease-in-out_infinite]">
+                        <img src="/images/2.svg" alt="Voltama Ornament" className="w-full h-full object-contain" />
                     </div>
                 </div>
             </section>

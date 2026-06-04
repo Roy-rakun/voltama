@@ -32,7 +32,7 @@ export default function CustomPage({ globalSettings, page }: CustomPageProps) {
                         {/* Custom content HTML body (from Quill) */}
                         {page.content ? (
                             <div 
-                                className="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed font-normal space-y-6"
+                                className="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed font-normal space-y-6 break-words w-full"
                                 dangerouslySetInnerHTML={{ __html: page.content }}
                             />
                         ) : (

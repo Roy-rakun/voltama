@@ -1,6 +1,6 @@
 import { Link, Head } from '@inertiajs/react';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
-import { Sun, Moon, Globe, Phone, Mail, MapPin, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Sun, Moon, Globe, Phone, Mail, MapPin, Menu, X, ArrowUpRight, ShoppingCart } from 'lucide-react';
 
 interface PageNav {
     title: string;
@@ -28,6 +28,13 @@ interface GlobalSettings {
     footer_powered_by_text?: string;
     footer_powered_by_link?: string;
     certifications: { name: string; logo: string }[];
+    footer_description?: string;
+    footer_tiktok?: string;
+    contact_map_iframe?: string;
+    contact_description?: string;
+    contact_address?: string;
+    contact_hours?: string;
+    contact_days?: string;
 }
 
 interface FrontendLayoutProps {
@@ -201,11 +208,11 @@ export default function FrontendLayout({
                                     Keunggulan
                                 </a>
                                 <a
-                                    href="/#testimonial-sec"
-                                    onClick={(e) => handleSectionClick(e, 'testimonial-sec')}
+                                    href="/#katalog-sec"
+                                    onClick={(e) => handleSectionClick(e, 'katalog-sec')}
                                     className="transition hover:text-[#ffc400] text-gray-600 dark:text-gray-300"
                                 >
-                                    Testimoni
+                                    Produk
                                 </a>
 
                                 {/* Dynamic Custom Pages Nav */}
@@ -214,35 +221,52 @@ export default function FrontendLayout({
                                         key={navPage.slug}
                                         href={`/p/${navPage.slug}`}
                                         className={`transition hover:text-[#ffc400] ${decodeURIComponent(window.location.pathname) === `/p/${navPage.slug}`
-                                                ? 'text-[#ffc400]'
-                                                : 'text-gray-600 dark:text-gray-300'
+                                            ? 'text-[#ffc400]'
+                                            : 'text-gray-600 dark:text-gray-300'
                                             }`}
                                     >
                                         {navPage.title}
                                     </Link>
                                 ))}
 
-                                {/* Divider & Katalog/Artikel — scroll ke section, bukan navigasi */}
+                                {/* Divider & Testimoni/Artikel */}
                                 <div className="h-4 w-px bg-gray-200 dark:bg-gray-800 self-center mx-2" />
                                 <a
-                                    href="/#katalog-sec"
-                                    onClick={(e) => handleSectionClick(e, 'katalog-sec')}
+                                    href="/#testimonial-sec"
+                                    onClick={(e) => handleSectionClick(e, 'testimonial-sec')}
                                     className="relative py-1 transition hover:text-[#ffc400] text-gray-600 dark:text-gray-300 font-bold"
                                 >
-                                    Katalog
+                                    Testimoni
                                 </a>
-                                <a
+                                 <a
                                     href="/#artikel-sec"
                                     onClick={(e) => handleSectionClick(e, 'artikel-sec')}
                                     className="relative py-1 transition hover:text-[#ffc400] text-gray-600 dark:text-gray-300 font-bold"
                                 >
                                     Artikel
                                 </a>
+                                <a
+                                    href="/#kontak-sec"
+                                    onClick={(e) => handleSectionClick(e, 'kontak-sec')}
+                                    className="relative py-1 transition hover:text-[#ffc400] text-gray-600 dark:text-gray-300 font-bold"
+                                >
+                                    Kontak
+                                </a>
                             </nav>
                         )}
 
-                        {/* Controls (Theme toggle & Mobile Toggle) */}
+                        {/* Controls (Theme toggle, Belanja & Mobile Toggle) */}
                         <div className="flex items-center gap-4">
+                            {/* Tombol Belanja (Desktop) */}
+                            <a
+                                href="/#promo-sec"
+                                onClick={(e) => handleSectionClick(e, 'promo-sec')}
+                                className="hidden lg:flex items-center gap-2 rounded-full bg-[#ffc400] text-gray-950 px-5 py-2.5 text-sm font-black hover:bg-[#ffb300] hover:scale-105 transition-all duration-300 shadow-md"
+                            >
+                                <ShoppingCart size={16} strokeWidth={2.5} />
+                                Belanja
+                            </a>
+
                             {/* Light/Dark Toggle */}
                             <button
                                 onClick={toggleDarkMode}
@@ -300,11 +324,11 @@ export default function FrontendLayout({
                                     Keunggulan
                                 </a>
                                 <a
-                                    href="/#testimonial-sec"
-                                    onClick={(e) => handleSectionClick(e, 'testimonial-sec')}
+                                    href="/#katalog-sec"
+                                    onClick={(e) => handleSectionClick(e, 'katalog-sec')}
                                     className="block rounded-xl px-4 py-2.5 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-300"
                                 >
-                                    Testimoni
+                                    Produk
                                 </a>
                                 {globalSettings.pages_nav && globalSettings.pages_nav.map((navPage) => (
                                     <Link
@@ -318,11 +342,11 @@ export default function FrontendLayout({
                                 ))}
                                 <div className="h-px bg-gray-100 dark:bg-gray-800 my-2" />
                                 <a
-                                    href="/#katalog-sec"
-                                    onClick={(e) => handleSectionClick(e, 'katalog-sec')}
+                                    href="/#testimonial-sec"
+                                    onClick={(e) => handleSectionClick(e, 'testimonial-sec')}
                                     className="block rounded-xl px-4 py-2.5 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-900 text-[#ffc400]"
                                 >
-                                    Katalog Produk
+                                    Testimoni
                                 </a>
                                 <a
                                     href="/#artikel-sec"
@@ -331,6 +355,23 @@ export default function FrontendLayout({
                                 >
                                     Artikel & Edukasi
                                 </a>
+                                <a
+                                    href="/#kontak-sec"
+                                    onClick={(e) => handleSectionClick(e, 'kontak-sec')}
+                                    className="block rounded-xl px-4 py-2.5 text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-900 text-[#ffc400]"
+                                >
+                                    Kontak Kami
+                                </a>
+                                <div className="pt-2">
+                                    <a
+                                        href="/#promo-sec"
+                                        onClick={(e) => handleSectionClick(e, 'promo-sec')}
+                                        className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-black bg-[#ffc400] text-gray-950 hover:bg-[#ffb300] transition"
+                                    >
+                                        <ShoppingCart size={16} strokeWidth={2.5} />
+                                        Belanja Sekarang
+                                    </a>
+                                </div>
                             </>
                         )}
                     </div>
@@ -356,7 +397,7 @@ export default function FrontendLayout({
                                 style={{ width: '190px', height: 'auto' }}
                             />
                             <p className="text-sm text-gray-400 leading-relaxed font-light">
-                                Voltama adalah produsen kabel listrik berkualitas premium bersertifikat SNI dengan konduktor 100% tembaga murni untuk keamanan maksimal Anda.
+                                {globalSettings.footer_description || 'Voltama adalah produsen kabel listrik berkualitas premium bersertifikat SNI dengan konduktor 100% tembaga murni untuk keamanan maksimal Anda.'}
                             </p>
                             <p className="text-xs text-gray-500 font-light leading-relaxed">
                                 {globalSettings.footer_address || 'Kawasan Industri Maspion, Sidoarjo, Jawa Timur'}
@@ -396,38 +437,51 @@ export default function FrontendLayout({
                             <ul className="space-y-3 text-sm text-gray-400">
                                 <li className="flex items-center gap-3">
                                     <Phone size={16} className="text-[#ffc400] shrink-0" />
-                                    <span>{globalSettings.footer_phone || '0898-8898-778'}</span>
+                                    <a href={`tel:${globalSettings.footer_phone || '0898-8898-778'}`} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-[#ffc400] transition">
+                                        {globalSettings.footer_phone || '0898-8898-778'}
+                                    </a>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <Mail size={16} className="text-[#ffc400] shrink-0" />
-                                    <span>{globalSettings.footer_email || 'info@voltama.id'}</span>
+                                    <a href={`mailto:${globalSettings.footer_email || 'info@voltama.id'}`} target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-[#ffc400] transition">
+                                        {globalSettings.footer_email || 'info@voltama.id'}
+                                    </a>
                                 </li>
                                 <li className="flex items-center gap-3">
                                     <Globe size={16} className="text-[#ffc400] shrink-0" />
-                                    <span>voltama.id</span>
+                                    <a href="https://voltama.id" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-[#ffc400] transition">
+                                        voltama.id
+                                    </a>
                                 </li>
                             </ul>
 
                             {/* Sosial Media Icons */}
                             <div className="flex items-center gap-3 pt-2">
                                 {globalSettings.footer_facebook && (
-                                    <a href={globalSettings.footer_facebook} target="_blank" rel="noopener noreferrer" className="rounded-full bg-gray-800 text-white hover:bg-[#ffc400] hover:text-gray-950 p-2 transition shadow-sm">
+                                    <a href={globalSettings.footer_facebook} target="_blank" rel="noopener noreferrer" className="rounded-full bg-gray-800 text-white hover:bg-[#ffc400] hover:text-gray-950 p-2 transition shadow-sm" title="Facebook">
                                         <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                                             <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1V12h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z" />
                                         </svg>
                                     </a>
                                 )}
                                 {globalSettings.footer_instagram && (
-                                    <a href={globalSettings.footer_instagram} target="_blank" rel="noopener noreferrer" className="rounded-full bg-gray-800 text-white hover:bg-[#ffc400] hover:text-gray-950 p-2 transition shadow-sm">
+                                    <a href={globalSettings.footer_instagram} target="_blank" rel="noopener noreferrer" className="rounded-full bg-gray-800 text-white hover:bg-[#ffc400] hover:text-gray-950 p-2 transition shadow-sm" title="Instagram">
                                         <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                                             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
                                         </svg>
                                     </a>
                                 )}
                                 {globalSettings.footer_youtube && (
-                                    <a href={globalSettings.footer_youtube} target="_blank" rel="noopener noreferrer" className="rounded-full bg-gray-800 text-white hover:bg-[#ffc400] hover:text-gray-950 p-2 transition shadow-sm">
+                                    <a href={globalSettings.footer_youtube} target="_blank" rel="noopener noreferrer" className="rounded-full bg-gray-800 text-white hover:bg-[#ffc400] hover:text-gray-950 p-2 transition shadow-sm" title="Youtube">
                                         <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                                             <path d="M23.498 6.163a3.003 3.003 0 00-2.11-2.108C19.528 3.545 12 3.545 12 3.545s-7.528 0-9.388.51a3.004 3.004 0 00-2.11 2.108C0 8.022 0 12 0 12s0 3.978.502 5.837a3.004 3.004 0 002.11 2.108c1.86.51 9.388.51 9.388.51s7.53 0 9.388-.51a3.004 3.004 0 002.11-2.108C24 15.978 24 12 24 12s0-3.978-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                        </svg>
+                                    </a>
+                                )}
+                                {globalSettings.footer_tiktok && (
+                                    <a href={globalSettings.footer_tiktok} target="_blank" rel="noopener noreferrer" className="rounded-full bg-gray-800 text-white hover:bg-[#ffc400] hover:text-gray-950 p-2 transition shadow-sm" title="TikTok">
+                                        <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.59 4.18.94 1.13 2.27 1.9 3.73 2.18v3.98c-1.78-.05-3.52-.75-4.83-1.97-.02 1.48-.01 2.97-.01 4.45 0 2.24-.76 4.45-2.22 6.13-1.72 1.98-4.38 3.12-7.05 2.92-2.92-.22-5.69-2.2-6.72-4.96C-.17 14.51.5 11.08 2.58 8.87c1.78-1.9 4.43-2.9 7.03-2.61.1 0 .2.02.3.04v4.06c-.84-.28-1.79-.19-2.54.29-.8.51-1.32 1.4-1.4 2.34-.11 1.25.5 2.51 1.54 3.17.98.62 2.3.62 3.28 0 1.05-.66 1.66-1.92 1.55-3.17V.02z" />
                                         </svg>
                                     </a>
                                 )}
@@ -436,7 +490,7 @@ export default function FrontendLayout({
 
                         {/* Kolom 4: Sertifikasi & Marketplace */}
                         <div className="space-y-4">
-                            <h4 className="text-white font-bold text-sm uppercase tracking-wider">Sertifikasi & Beli di</h4>
+                            <h4 className="text-white font-bold text-sm uppercase tracking-wider">Sertifikasi</h4>
 
                             {/* Logo Sertifikasi Resmi (Multi atau Fallback) */}
                             {globalSettings.certifications && globalSettings.certifications.length > 0 ? (

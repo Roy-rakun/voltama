@@ -18,7 +18,7 @@ class CatalogController extends Controller
      */
     public function index(): Response
     {
-        $catalogs = Catalog::with('category')->orderBy('id', 'desc')->get();
+        $catalogs = Catalog::with('category')->orderBy('order_position', 'asc')->orderBy('id', 'desc')->get();
         return Inertia::render('Admin/Catalogs/Index', [
             'catalogs' => $catalogs,
             'success' => session('success')
@@ -190,5 +190,65 @@ class CatalogController extends Controller
         $catalog->delete();
 
         return redirect()->route('admin.catalogs.index')->with('success', 'Katalog berhasil dihapus.');
+    }
+
+    /**
+     * Move the catalog item position up in sorting order.
+     */
+    public function moveUp(Catalog $catalog)
+    {
+        $catalogs = Catalog::orderBy('order_position', 'asc')->orderBy('id', 'desc')->get();
+        
+        $currentIndex = $catalogs->indexOf(function ($item) use ($catalog) {
+            return $item->id === $catalog->id;
+        });
+
+        if ($currentIndex > 0) {
+            $prevCatalog = $catalogs[$currentIndex - 1];
+            
+            $tempOrder = $catalog->order_position;
+            $catalog->order_position = $prevCatalog->order_position;
+            $prevCatalog->order_position = $tempOrder;
+            
+            if ($catalog->order_position == $prevCatalog->order_position) {
+                $catalog->order_position = $currentIndex - 1;
+                $prevCatalog->order_position = $currentIndex;
+            }
+
+            $catalog->save();
+            $prevCatalog->save();
+        }
+
+        return redirect()->route('admin.catalogs.index')->with('success', 'Urutan produk berhasil dinaikkan.');
+    }
+
+    /**
+     * Move the catalog item position down in sorting order.
+     */
+    public function moveDown(Catalog $catalog)
+    {
+        $catalogs = Catalog::orderBy('order_position', 'asc')->orderBy('id', 'desc')->get();
+        
+        $currentIndex = $catalogs->indexOf(function ($item) use ($catalog) {
+            return $item->id === $catalog->id;
+        });
+
+        if ($currentIndex < $catalogs->count() - 1) {
+            $nextCatalog = $catalogs[$currentIndex + 1];
+            
+            $tempOrder = $catalog->order_position;
+            $catalog->order_position = $nextCatalog->order_position;
+            $nextCatalog->order_position = $tempOrder;
+            
+            if ($catalog->order_position == $nextCatalog->order_position) {
+                $catalog->order_position = $currentIndex + 1;
+                $nextCatalog->order_position = $currentIndex;
+            }
+
+            $catalog->save();
+            $nextCatalog->save();
+        }
+
+        return redirect()->route('admin.catalogs.index')->with('success', 'Urutan produk berhasil diturunkan.');
     }
 }

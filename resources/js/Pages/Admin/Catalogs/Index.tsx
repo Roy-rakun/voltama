@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, router } from '@inertiajs/react';
 import React from 'react';
 
 interface Catalog {
@@ -24,6 +24,18 @@ export default function Index({ catalogs, success }: IndexProps) {
         if (confirm('Apakah Anda yakin ingin menghapus katalog ini?')) {
             destroy(route('admin.catalogs.destroy', id));
         }
+    };
+
+    const handleMoveUp = (id: number) => {
+        router.post(route('admin.catalogs.up', id), {}, {
+            preserveScroll: true
+        });
+    };
+
+    const handleMoveDown = (id: number) => {
+        router.post(route('admin.catalogs.down', id), {}, {
+            preserveScroll: true
+        });
     };
 
     return (
@@ -63,11 +75,12 @@ export default function Index({ catalogs, success }: IndexProps) {
                                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Nama Produk</th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Tanggal Dibuat</th>
+                                                <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Posisi</th>
                                                 <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-                                            {catalogs.map((catalog) => (
+                                            {catalogs.map((catalog, index) => (
                                                 <tr key={catalog.id}>
                                                     <td className="whitespace-nowrap px-6 py-4">
                                                         {catalog.image_path ? (
@@ -95,6 +108,26 @@ export default function Index({ catalogs, success }: IndexProps) {
                                                             month: 'long',
                                                             year: 'numeric'
                                                         })}
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-6 py-4 text-center text-sm font-medium">
+                                                        <div className="flex items-center justify-center space-x-1">
+                                                            <button
+                                                                onClick={() => handleMoveUp(catalog.id)}
+                                                                disabled={index === 0}
+                                                                className="p-1.5 rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-650 text-gray-700 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                                                                title="Naikkan Posisi"
+                                                            >
+                                                                ▲
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleMoveDown(catalog.id)}
+                                                                disabled={index === catalogs.length - 1}
+                                                                className="p-1.5 rounded bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-650 text-gray-700 dark:text-gray-300 disabled:opacity-30 disabled:cursor-not-allowed transition"
+                                                                title="Turunkan Posisi"
+                                                            >
+                                                                ▼
+                                                            </button>
+                                                        </div>
                                                     </td>
                                                     <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium space-x-2">
                                                         <Link

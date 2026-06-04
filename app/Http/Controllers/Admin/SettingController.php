@@ -22,6 +22,8 @@ class SettingController extends Controller
             'footer_copyright', 'footer_address', 'footer_phone', 'footer_email',
             'footer_facebook', 'footer_instagram', 'footer_youtube', 'footer_whatsapp',
             'footer_powered_by_text', 'footer_powered_by_link',
+            'footer_description', 'footer_tiktok',
+            'contact_map_iframe', 'contact_description', 'contact_address', 'contact_hours', 'contact_days'
         ];
 
         $settings = [];
@@ -56,6 +58,13 @@ class SettingController extends Controller
             'footer_whatsapp'        => 'nullable|string|max:100',
             'footer_powered_by_text' => 'nullable|string|max:100',
             'footer_powered_by_link' => 'nullable|string|max:255',
+            'footer_description'     => 'nullable|string',
+            'footer_tiktok'          => 'nullable|string|max:255',
+            'contact_map_iframe'     => 'nullable|string',
+            'contact_description'    => 'nullable|string',
+            'contact_address'        => 'nullable|string',
+            'contact_hours'          => 'nullable|string|max:255',
+            'contact_days'           => 'nullable|string|max:255',
         ]);
 
         $textFields = [
@@ -63,6 +72,8 @@ class SettingController extends Controller
             'footer_copyright', 'footer_address', 'footer_phone', 'footer_email',
             'footer_facebook', 'footer_instagram', 'footer_youtube', 'footer_whatsapp',
             'footer_powered_by_text', 'footer_powered_by_link',
+            'footer_description', 'footer_tiktok',
+            'contact_map_iframe', 'contact_description', 'contact_address', 'contact_hours', 'contact_days'
         ];
 
         foreach ($textFields as $field) {

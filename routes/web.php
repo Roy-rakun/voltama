@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     
     // Rute yang dapat diakses oleh Admin & Editor (Katalog & Artikel)
+    Route::post('catalogs/{catalog}/up', [CatalogController::class, 'moveUp'])->name('catalogs.up');
+    Route::post('catalogs/{catalog}/down', [CatalogController::class, 'moveDown'])->name('catalogs.down');
     Route::resource('catalogs', CatalogController::class);
     Route::resource('catalog-categories', CatalogCategoryController::class)->except(['show', 'create', 'edit']);
     Route::resource('articles', ArticleController::class);

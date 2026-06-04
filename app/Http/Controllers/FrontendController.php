@@ -27,7 +27,9 @@ class FrontendController extends Controller
             'footer_copyright', 'footer_address', 'footer_phone', 'footer_email',
             'footer_facebook', 'footer_instagram', 'footer_youtube', 'footer_whatsapp',
             'footer_marketplace_logo', 'footer_marketplace_link',
-            'footer_powered_by_text', 'footer_powered_by_link'
+            'footer_powered_by_text', 'footer_powered_by_link',
+            'footer_description', 'footer_tiktok',
+            'contact_map_iframe', 'contact_description', 'contact_address', 'contact_hours', 'contact_days'
         ];
 
         $settings = [];
@@ -151,7 +153,7 @@ class FrontendController extends Controller
         ];
 
         // Get 6 latest catalogs for landing page slider
-        $catalogs = Catalog::where('is_active', true)->orderBy('id', 'desc')->limit(6)->get();
+        $catalogs = Catalog::where('is_active', true)->orderBy('order_position', 'asc')->orderBy('id', 'desc')->limit(6)->get();
 
         // Get latest 6 active articles for landing page
         $articles = Article::where('is_active', true)->orderBy('id', 'desc')->limit(6)->get();
@@ -208,7 +210,7 @@ class FrontendController extends Controller
             }
         }
 
-        $catalogs = $query->orderBy('id', 'desc')->get();
+        $catalogs = $query->orderBy('order_position', 'asc')->orderBy('id', 'desc')->get();
 
         // Extract all available spec keys and values for dynamic filter sidebar/dropdown
         $allCatalogs = Catalog::where('is_active', true)->get();
