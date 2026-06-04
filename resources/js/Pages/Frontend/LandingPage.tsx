@@ -274,7 +274,7 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
                                     }`}
                                 >
                                     <div
-                                        className={`absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform ${kenBurnsClasses[idx % kenBurnsClasses.length]}`}
+                                        className={`absolute inset-0 bg-cover bg-left bg-no-repeat will-change-transform ${kenBurnsClasses[idx % kenBurnsClasses.length]}`}
                                         style={{
                                             backgroundImage: `url(${slide.image_path})`,
                                         }}
