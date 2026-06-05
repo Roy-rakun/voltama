@@ -4,8 +4,14 @@ import React, { FormEvent } from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
+interface Category {
+    id: number;
+    name: string;
+}
+
 interface Article {
     id: number;
+    article_category_id?: number | string | null;
     title: string;
     content: string;
     image_path: string;
@@ -15,11 +21,13 @@ interface Article {
 
 interface EditProps {
     article: Article;
+    categories: Category[];
 }
 
-export default function Edit({ article }: EditProps) {
+export default function Edit({ article, categories }: EditProps) {
     const { data, setData, post, processing, errors } = useForm({
         _method: 'put', // Method spoofing untuk Laravel PUT request
+        article_category_id: article.article_category_id || '',
         title: article.title || '',
         content: article.content || '',
         image_file: null as File | null,
@@ -68,6 +76,21 @@ export default function Edit({ article }: EditProps) {
                 <div className="mx-auto max-w-4xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white p-6 shadow sm:rounded-lg dark:bg-gray-800">
                         <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Kategori Artikel</label>
+                                <select
+                                    value={data.article_category_id}
+                                    onChange={(e) => setData('article_category_id', e.target.value)}
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                >
+                                    <option value="">-- Tanpa Kategori --</option>
+                                    {categories.map(cat => (
+                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                    ))}
+                                </select>
+                                {errors.article_category_id && <div className="mt-1 text-sm text-red-600">{errors.article_category_id}</div>}
+                            </div>
+
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul Artikel</label>
                                 <input

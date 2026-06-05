@@ -27,7 +27,7 @@ class ArticleController extends Controller
 
     public function create(): Response
     {
-        $categories = ArticleCategory::where('is_active', true)->orderBy('name')->get(['id', 'name']);
+        $categories = ArticleCategory::orderBy('name')->get(['id', 'name']);
         return Inertia::render('Admin/Articles/Create', [
             'categories' => $categories,
         ]);
@@ -86,7 +86,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article): Response
     {
-        $categories = ArticleCategory::where('is_active', true)->orderBy('name')->get(['id', 'name']);
+        $categories = ArticleCategory::orderBy('name')->get(['id', 'name']);
         return Inertia::render('Admin/Articles/Edit', [
             'article'    => $article,
             'categories' => $categories,
