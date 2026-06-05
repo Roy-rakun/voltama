@@ -32,6 +32,14 @@ interface AllArticlesProps {
     };
 }
 
+const stripHtml = (html: string) => {
+    if (!html) return '';
+    return html
+        .replace(/<[^>]*>/g, '')
+        .replace(/\u00a0/g, ' ')
+        .replace(/&nbsp;/g, ' ');
+};
+
 export default function AllArticles({ globalSettings, articles, filters }: AllArticlesProps) {
     const [search, setSearch] = useState(filters.search || '');
 
@@ -117,7 +125,7 @@ export default function AllArticles({ globalSettings, articles, filters }: AllAr
                                                 {art.title}
                                             </h3>
                                             <p className="text-xs text-gray-500 line-clamp-3 leading-relaxed">
-                                                {art.content.replace(/<[^>]*>/g, '')}
+                                                {stripHtml(art.content)}
                                             </p>
                                         </div>
                                         <div className="text-xs font-bold text-gray-900 dark:text-white flex items-center gap-1 group-hover:gap-2 transition-all">

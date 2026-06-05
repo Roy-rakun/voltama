@@ -266,7 +266,11 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
 
     const stripHtml = (html: string) => {
         if (!html) return '';
-        return html.replace(/<[^>]*>/g, '').substring(0, 120) + '...';
+        const clean = html
+            .replace(/<[^>]*>/g, '')
+            .replace(/\u00a0/g, ' ')
+            .replace(/&nbsp;/g, ' ');
+        return clean.substring(0, 120) + '...';
     };
 
     return (
