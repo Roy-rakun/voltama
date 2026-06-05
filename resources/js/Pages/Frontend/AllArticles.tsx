@@ -3,6 +3,12 @@ import { Head, Link, router } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import { Search, Calendar, User, Eye, ArrowRight } from 'lucide-react';
 
+interface Category {
+    id: number;
+    name: string;
+    slug: string;
+}
+
 interface Article {
     id: number;
     title: string;
@@ -11,6 +17,7 @@ interface Article {
     image_path: string;
     views: number;
     created_at: string;
+    category?: Category;
 }
 
 interface PaginatedArticles {
@@ -29,6 +36,7 @@ interface AllArticlesProps {
     articles: PaginatedArticles;
     filters: {
         search: string;
+        kategori?: string | null;
     };
 }
 
@@ -44,9 +52,13 @@ export default function AllArticles({ globalSettings, articles, filters }: AllAr
     const [search, setSearch] = useState(filters.search || '');
 
     const applySearch = () => {
+        const params: any = {};
+        if (search) params.search = search;
+        if (filters.kategori) params.kategori = filters.kategori;
+
         router.get(
             route('artikel.index'),
-            { search },
+            params,
             { preserveState: true, replace: true }
         );
     };
@@ -84,6 +96,21 @@ export default function AllArticles({ globalSettings, articles, filters }: AllAr
                             />
                         </div>
                     </div>
+
+                    {/* Active Filter Badge */}
+                    {filters.kategori && (
+                        <div className="max-w-md mx-auto mb-8 text-center">
+                            <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-800 dark:bg-amber-950/20 dark:border-amber-900/60 dark:text-amber-300">
+                                Kategori: <span className="font-extrabold">{articles.data[0]?.category?.name || filters.kategori}</span>
+                                <Link
+                                    href="/artikel"
+                                    className="ml-1 text-gray-400 hover:text-red-500 font-bold leading-none"
+                                >
+                                    ✕
+                                </Link>
+                            </span>
+                        </div>
+                    )}
 
                     {/* Articles Grid */}
                     {articles.data.length === 0 ? (

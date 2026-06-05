@@ -264,13 +264,20 @@ class FrontendController extends Controller
     {
         $globalSettings = $this->getGlobalSettings();
         $search = $request->input('search');
+        $categorySlug = $request->input('kategori');
 
-        $query = Article::where('is_active', true);
+        $query = Article::where('is_active', true)->with('category');
 
         if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                   ->orWhere('content', 'like', "%{$search}%");
+            });
+        }
+
+        if ($categorySlug) {
+            $query->whereHas('category', function($q) use ($categorySlug) {
+                $q->where('slug', $categorySlug);
             });
         }
 
@@ -280,7 +287,8 @@ class FrontendController extends Controller
             'globalSettings' => $globalSettings,
             'articles' => $articles,
             'filters' => [
-                'search' => $search
+                'search' => $search,
+                'kategori' => $categorySlug
             ]
         ]);
     }

@@ -28,7 +28,10 @@ interface ArticleDetailProps {
 
 const cleanContent = (htmlContent: string) => {
     if (!htmlContent) return '';
-    return htmlContent.replace(/\u00a0/g, ' ').replace(/&nbsp;/g, ' ');
+    let cleaned = htmlContent.replace(/\u00a0/g, ' ').replace(/&nbsp;/g, ' ');
+    // Hapus paragraf manual Kategori dan Tag jika ada
+    cleaned = cleaned.replace(/<p[^>]*>\s*(<strong>\s*)?(Kategori|Tag):\s*.*?<\/p>/gi, '');
+    return cleaned;
 };
 
 export default function ArticleDetail({ globalSettings, article, relatedArticles }: ArticleDetailProps) {
@@ -55,6 +58,15 @@ export default function ArticleDetail({ globalSettings, article, relatedArticles
 
     // Ambil URL saat ini
     const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+    // Menghasilkan tag otomatis dari judul artikel
+    const stopWords = ['yang', 'dan', 'untuk', 'dari', 'dengan', 'dalam', 'pada', 'atau', 'oleh', 'juga', 'baru', 'bisa', 'cara', 'untuk', 'agar', 'kita', 'di', 'ke', 'ini', 'itu', 'adalah'];
+    const titleWords = article.title
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9\s]/g, '')
+        .split(' ')
+        .filter(word => word.length >= 4 && !stopWords.includes(word));
+    const computedTags = Array.from(new Set(titleWords)).slice(0, 7);
 
     return (
         <FrontendLayout globalSettings={globalSettings} isInnerPage={true}>
@@ -130,6 +142,38 @@ export default function ArticleDetail({ globalSettings, article, relatedArticles
                             className="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed font-normal space-y-6 break-words w-full"
                             dangerouslySetInnerHTML={{ __html: cleanContent(article.content) }}
                         />
+
+                        {/* Tags & Categories Section */}
+                        <div className="pt-8 border-t border-gray-100 dark:border-gray-800 space-y-4">
+                            {article.category && (
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Kategori:</span>
+                                    <Link
+                                        href={`/artikel?kategori=${article.category.slug}`}
+                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-55 text-amber-800 hover:bg-amber-100 dark:bg-amber-950/40 dark:text-amber-300 dark:hover:bg-amber-950/60 transition"
+                                    >
+                                        {article.category.name}
+                                    </Link>
+                                </div>
+                            )}
+
+                            {computedTags.length > 0 && (
+                                <div className="flex flex-wrap items-center gap-2">
+                                    <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Tag:</span>
+                                    <div className="flex flex-wrap gap-2">
+                                        {computedTags.map((tag, i) => (
+                                            <Link
+                                                key={i}
+                                                href={`/artikel?search=${encodeURIComponent(tag)}`}
+                                                className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-350 dark:hover:bg-gray-700 transition"
+                                            >
+                                                #{tag}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </article>
 
                     {/* Related Articles Section */}
