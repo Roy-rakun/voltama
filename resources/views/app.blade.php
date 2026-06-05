@@ -6,6 +6,16 @@
 
         <title inertia>{{ \App\Models\Setting::getValue('website_title') ?: config('app.name', 'Laravel') }}</title>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9GY3L8W6L"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-G9GY3L8W6L');
+</script>
+
         <script>
             window.websiteTitle = "{{ \App\Models\Setting::getValue('website_title') ?: 'Voltama' }}";
         </script>
