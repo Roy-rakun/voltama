@@ -49,7 +49,7 @@ class FrontendController extends Controller
         $settings['certifications'] = json_decode($rawCert, true) ?: [];
 
         // Get list of active custom pages for dynamic header/footer navigation
-        $settings['pages_nav'] = Page::where('is_active', true)->select('title', 'slug')->get();
+        $settings['pages_nav'] = Page::where('is_active', true)->where('show_in_navbar', true)->select('title', 'slug')->get();
 
         return $settings;
     }

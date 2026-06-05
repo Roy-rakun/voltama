@@ -10,10 +10,14 @@ class Page extends Model
         'title',
         'slug',
         'content',
-        'is_active'
+        'is_active',
+        'show_in_navbar',
+        'gallery_images'
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'show_in_navbar' => 'boolean',
+        'gallery_images' => 'array'
     ];
 }

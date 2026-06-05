@@ -7,6 +7,7 @@ interface Page {
     title: string;
     slug: string;
     is_active: boolean;
+    show_in_navbar: boolean;
     created_at: string;
 }
 
@@ -60,6 +61,7 @@ export default function Index({ pages, success }: IndexProps) {
                                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Judul Halaman</th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Tautan (Slug)</th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Status</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Tampil di Navbar</th>
                                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Tanggal Dibuat</th>
                                                 <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Aksi</th>
                                             </tr>
@@ -80,6 +82,15 @@ export default function Index({ pages, success }: IndexProps) {
                                                             : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
                                                         }`}>
                                                             {page.is_active ? 'Aktif' : 'Nonaktif'}
+                                                        </span>
+                                                    </td>
+                                                    <td className="whitespace-nowrap px-6 py-4">
+                                                        <span className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
+                                                            page.show_in_navbar 
+                                                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300' 
+                                                            : 'bg-gray-100 text-gray-800 dark:bg-gray-700/50 dark:text-gray-300'
+                                                        }`}>
+                                                            {page.show_in_navbar ? 'Ya' : 'Tidak'}
                                                         </span>
                                                     </td>
                                                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">

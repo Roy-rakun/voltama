@@ -126,6 +126,19 @@ const parseEmbedUrl = (input: string | null | undefined): string => {
     return trimmed;
 };
 
+const renderFormattedText = (text: string | null | undefined) => {
+    if (!text) return '';
+    let escaped = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    
+    let formatted = escaped.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    
+    return <span dangerouslySetInnerHTML={{ __html: formatted }} />;
+};
+
 export default function LandingPage({ globalSettings, heroSlides, heroSlideInterval, sectionImages, sectionTexts, catalogs, articles, testimonials }: LandingPageProps) {
 
     // --- Email Notification Logic ---
@@ -408,7 +421,7 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
                             </div>
 
                             <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl text-justify whitespace-pre-line">
-                                {sectionTexts?.tentang_desc || 'Voltama merupakan brand dari PT. Sinar Intan Putra Nusa, perusahaan manufaktur perlengkapan listrik yang berkomitmen menghadirkan produk berkualitas, aman, dan terpercaya.'}
+                                {renderFormattedText(sectionTexts?.tentang_desc || 'Voltama merupakan brand dari PT. Sinar Intan Putra Nusa, perusahaan manufaktur perlengkapan listrik yang berkomitmen menghadirkan produk berkualitas, aman, dan terpercaya.')}
                             </p>
                         </div>
 

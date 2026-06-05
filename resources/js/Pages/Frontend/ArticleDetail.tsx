@@ -19,6 +19,11 @@ interface ArticleDetailProps {
     relatedArticles: Article[];
 }
 
+const cleanContent = (htmlContent: string) => {
+    if (!htmlContent) return '';
+    return htmlContent.replace(/\u00a0/g, ' ').replace(/&nbsp;/g, ' ');
+};
+
 export default function ArticleDetail({ globalSettings, article, relatedArticles }: ArticleDetailProps) {
     return (
         <FrontendLayout globalSettings={globalSettings} isInnerPage={true}>
@@ -30,7 +35,7 @@ export default function ArticleDetail({ globalSettings, article, relatedArticles
                     <div className="mb-6">
                         <Link
                             href="/artikel"
-                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-500 hover:text-gray-900 dark:hover:text-white transition"
+                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-550 hover:text-gray-900 dark:hover:text-white transition"
                         >
                             <ArrowLeft size={16} />
                             Kembali ke Daftar Artikel
@@ -73,8 +78,8 @@ export default function ArticleDetail({ globalSettings, article, relatedArticles
 
                         {/* Rich HTML Content Body (from Quill) */}
                         <div 
-                            className="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed font-normal space-y-6"
-                            dangerouslySetInnerHTML={{ __html: article.content }}
+                            className="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed font-normal space-y-6 break-words w-full"
+                            dangerouslySetInnerHTML={{ __html: cleanContent(article.content) }}
                         />
                     </article>
 
