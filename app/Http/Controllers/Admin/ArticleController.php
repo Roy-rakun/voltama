@@ -43,6 +43,7 @@ class ArticleController extends Controller
             'title'      => 'required|string|max:255',
             'content'    => 'required|string',
             'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4096',
+            'tags'       => 'nullable|string',
             'is_active'  => 'boolean',
         ]);
 
@@ -73,6 +74,7 @@ class ArticleController extends Controller
             'slug'       => $slug,
             'content'    => $request->content,
             'image_path' => $imagePath,
+            'tags'       => $request->tags,
             'is_active'  => $request->input('is_active', true),
         ]);
 
@@ -101,6 +103,7 @@ class ArticleController extends Controller
             'title'      => 'required|string|max:255',
             'content'    => 'required|string',
             'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4096',
+            'tags'       => 'nullable|string',
             'is_active'  => 'boolean',
         ]);
 
@@ -140,6 +143,7 @@ class ArticleController extends Controller
             'slug'       => $slug,
             'content'    => $request->content,
             'image_path' => $imagePath,
+            'tags'       => $request->tags,
             'is_active'  => $request->input('is_active', true),
         ]);
 

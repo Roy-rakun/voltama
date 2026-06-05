@@ -15,6 +15,7 @@ export default function Create({ categories }: { categories: Category[] }) {
         title: '',
         content: '',
         image_file: null as File | null,
+        tags: '',
         is_active: true,
     });
 
@@ -95,6 +96,19 @@ export default function Create({ categories }: { categories: Category[] }) {
                                     className="mt-1 block w-full text-sm text-gray-500 dark:text-gray-300"
                                 />
                                 {errors.image_file && <div className="mt-1 text-sm text-red-600">{errors.image_file}</div>}
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Tag Artikel</label>
+                                <input
+                                    type="text"
+                                    value={data.tags}
+                                    onChange={(e) => setData('tags', e.target.value)}
+                                    placeholder="Contoh: kelistrikan, tips listrik, kabel rumah (pisahkan dengan koma)"
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                />
+                                <span className="text-xs text-gray-500 mt-1 block">Pisahkan setiap tag menggunakan tanda koma ( , ).</span>
+                                {errors.tags && <div className="mt-1 text-sm text-red-600">{errors.tags}</div>}
                             </div>
 
                             <div>

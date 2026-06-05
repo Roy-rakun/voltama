@@ -15,6 +15,7 @@ interface Article {
     slug: string;
     content: string;
     image_path: string;
+    tags?: string;
     views: number;
     created_at: string;
     category?: Category;
@@ -59,14 +60,22 @@ export default function ArticleDetail({ globalSettings, article, relatedArticles
     // Ambil URL saat ini
     const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
 
-    // Menghasilkan tag otomatis dari judul artikel
-    const stopWords = ['yang', 'dan', 'untuk', 'dari', 'dengan', 'dalam', 'pada', 'atau', 'oleh', 'juga', 'baru', 'bisa', 'cara', 'untuk', 'agar', 'kita', 'di', 'ke', 'ini', 'itu', 'adalah'];
-    const titleWords = article.title
-        .toLowerCase()
-        .replace(/[^a-zA-Z0-9\s]/g, '')
-        .split(' ')
-        .filter(word => word.length >= 4 && !stopWords.includes(word));
-    const computedTags = Array.from(new Set(titleWords)).slice(0, 7);
+    // Menghasilkan tag (prioritas manual, fallback ke otomatis dari judul)
+    let computedTags: string[] = [];
+    if (article.tags && article.tags.trim() !== '') {
+        computedTags = article.tags
+            .split(',')
+            .map(t => t.trim())
+            .filter(Boolean);
+    } else {
+        const stopWords = ['yang', 'dan', 'untuk', 'dari', 'dengan', 'dalam', 'pada', 'atau', 'oleh', 'juga', 'baru', 'bisa', 'cara', 'untuk', 'agar', 'kita', 'di', 'ke', 'ini', 'itu', 'adalah'];
+        const titleWords = article.title
+            .toLowerCase()
+            .replace(/[^a-zA-Z0-9\s]/g, '')
+            .split(' ')
+            .filter(word => word.length >= 4 && !stopWords.includes(word));
+        computedTags = Array.from(new Set(titleWords)).slice(0, 7);
+    }
 
     return (
         <FrontendLayout globalSettings={globalSettings} isInnerPage={true}>
@@ -107,7 +116,15 @@ export default function ArticleDetail({ globalSettings, article, relatedArticles
                     <article className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl p-6 md:p-10 shadow-sm overflow-hidden space-y-8">
                         {/* Meta Header */}
                         <div className="space-y-4">
-                            <div className="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase">
+                            <div className="flex flex-wrap items-center gap-4 text-xs font-bold text-gray-400 uppercase">
+                                {article.category && (
+                                    <Link
+                                        href={`/artikel?kategori=${article.category.slug}`}
+                                        className="bg-[#ffc400] text-gray-950 px-2.5 py-0.5 rounded font-extrabold hover:bg-[#ffb300] transition-colors leading-none"
+                                    >
+                                        {article.category.name}
+                                    </Link>
+                                )}
                                 <span className="flex items-center gap-1.5">
                                     <Calendar size={14} />
                                     {new Date(article.created_at).toLocaleDateString('id-ID', {

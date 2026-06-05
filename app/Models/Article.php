@@ -12,6 +12,7 @@ class Article extends Model
         'slug',
         'content',
         'image_path',
+        'tags',
         'views',
         'is_active',
     ];

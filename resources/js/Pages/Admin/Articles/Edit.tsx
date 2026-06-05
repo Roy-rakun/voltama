@@ -9,6 +9,7 @@ interface Article {
     title: string;
     content: string;
     image_path: string;
+    tags?: string;
     is_active: boolean;
 }
 
@@ -22,6 +23,7 @@ export default function Edit({ article }: EditProps) {
         title: article.title || '',
         content: article.content || '',
         image_file: null as File | null,
+        tags: article.tags || '',
         is_active: article.is_active,
     });
 
@@ -86,10 +88,23 @@ export default function Edit({ article }: EditProps) {
                                 <input
                                     type="file"
                                     onChange={(e) => setData('image_file', e.target.files ? e.target.files[0] : null)}
-                                    className="mt-1 block w-full text-sm text-gray-500 dark:text-gray-300"
+                                    className="mt-1 block w-full text-sm text-gray-550 dark:text-gray-300"
                                 />
                                 <span className="text-xs text-gray-500">Biarkan kosong jika tidak ingin mengubah gambar banner</span>
                                 {errors.image_file && <div className="mt-1 text-sm text-red-600">{errors.image_file}</div>}
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Tag Artikel</label>
+                                <input
+                                    type="text"
+                                    value={data.tags}
+                                    onChange={(e) => setData('tags', e.target.value)}
+                                    placeholder="Contoh: kelistrikan, tips listrik, kabel rumah (pisahkan dengan koma)"
+                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                />
+                                <span className="text-xs text-gray-500 mt-1 block">Pisahkan setiap tag menggunakan tanda koma ( , ).</span>
+                                {errors.tags && <div className="mt-1 text-sm text-red-600">{errors.tags}</div>}
                             </div>
 
                             <div>
