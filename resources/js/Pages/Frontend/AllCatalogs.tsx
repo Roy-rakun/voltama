@@ -79,7 +79,7 @@ export default function AllCatalogs({ globalSettings, catalogs, catalogCategorie
 
     return (
         <FrontendLayout globalSettings={globalSettings} isInnerPage={true}>
-            <Head title="Katalog Kabel Listrik Premium - Voltama" />
+            <Head title={`Katalog Kabel Listrik Premium - ${globalSettings.website_title || 'Voltama'}`} />
 
             <div className="min-h-screen bg-gray-50 dark:bg-[#0c0c0c] transition-colors duration-300">
 

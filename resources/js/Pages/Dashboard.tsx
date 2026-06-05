@@ -84,7 +84,7 @@ export default function Dashboard({ stats, recentArticles, recentCatalogs }: Das
             header={
                 <div>
                     <p className="text-xs text-gray-400">Pages / <span className="text-gray-600">Dashboard</span></p>
-                    <h2 className="text-lg font-bold text-gray-800 leading-tight">Dashboarde</h2>
+                    <h2 className="text-lg font-bold text-gray-800 leading-tight">Dashboard</h2>
                 </div>
             }
         >
@@ -217,8 +217,8 @@ export default function Dashboard({ stats, recentArticles, recentCatalogs }: Das
                                     </div>
                                 </div>
                                 <span className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full ${article.is_active
-                                        ? 'bg-emerald-50 text-emerald-600'
-                                        : 'bg-gray-100 text-gray-400'
+                                    ? 'bg-emerald-50 text-emerald-600'
+                                    : 'bg-gray-100 text-gray-400'
                                     }`}>
                                     {article.is_active ? <CheckCircle size={10} /> : <XCircle size={10} />}
                                     {article.is_active ? 'Aktif' : 'Draft'}
@@ -260,8 +260,8 @@ export default function Dashboard({ stats, recentArticles, recentCatalogs }: Das
                                     </div>
                                 </div>
                                 <span className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full ${catalog.is_active
-                                        ? 'bg-emerald-50 text-emerald-600'
-                                        : 'bg-gray-100 text-gray-400'
+                                    ? 'bg-emerald-50 text-emerald-600'
+                                    : 'bg-gray-100 text-gray-400'
                                     }`}>
                                     {catalog.is_active ? <CheckCircle size={10} /> : <XCircle size={10} />}
                                     {catalog.is_active ? 'Aktif' : 'Draft'}

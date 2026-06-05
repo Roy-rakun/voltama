@@ -246,7 +246,7 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
 
     return (
         <FrontendLayout globalSettings={globalSettings}>
-            <Head title="Voltama - Solusi Kabel Listrik SNI Premium" />
+            <Head title={globalSettings.website_title || 'Voltama - Solusi Kabel Listrik SNI Premium'} />
 
             {/* ============================================================
                 SECTION 1: HERO — Full-Width Image Slider with Ken Burns

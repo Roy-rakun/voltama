@@ -5,10 +5,15 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => {
+        const defaultTitle = (window as any).websiteTitle || 'Voltama';
+        if (!title) return defaultTitle;
+        if (title.toLowerCase() === defaultTitle.toLowerCase() || title.includes(defaultTitle)) {
+            return title;
+        }
+        return `${title} - ${defaultTitle}`;
+    },
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.tsx`,

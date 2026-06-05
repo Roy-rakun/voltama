@@ -53,7 +53,7 @@ export default function AllArticles({ globalSettings, articles, filters }: AllAr
 
     return (
         <FrontendLayout globalSettings={globalSettings} isInnerPage={true}>
-            <Head title="Artikel & Edukasi Kelistrikan - Voltama" />
+            <Head title={`Artikel & Edukasi Kelistrikan - ${globalSettings.website_title || 'Voltama'}`} />
 
             <div className="py-12 bg-gray-50 dark:bg-[#0c0c0c] transition-colors duration-300 min-h-screen">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

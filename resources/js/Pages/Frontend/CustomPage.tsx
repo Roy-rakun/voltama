@@ -17,7 +17,7 @@ interface CustomPageProps {
 export default function CustomPage({ globalSettings, page }: CustomPageProps) {
     return (
         <FrontendLayout globalSettings={globalSettings}>
-            <Head title={`${page.title} - Voltama`} />
+            <Head title={`${page.title} - ${globalSettings.website_title || 'Voltama'}`} />
 
             <div className="py-16 bg-gray-50 dark:bg-[#0c0c0c] transition-colors duration-300 min-h-screen">
                 <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
