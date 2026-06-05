@@ -26,6 +26,11 @@ interface SettingsProps {
         contact_address: string;
         contact_hours: string;
         contact_days: string;
+        contact_office_address: string;
+        contact_office_map_iframe: string;
+        contact_factory_address: string;
+        contact_factory_map_iframe: string;
+        contact_website: string;
     };
     success: string | null;
 }
@@ -54,6 +59,11 @@ export default function Settings({ settings, success }: SettingsProps) {
         contact_address: settings.contact_address || '',
         contact_hours: settings.contact_hours || '',
         contact_days: settings.contact_days || '',
+        contact_office_address: settings.contact_office_address || '',
+        contact_office_map_iframe: settings.contact_office_map_iframe || '',
+        contact_factory_address: settings.contact_factory_address || '',
+        contact_factory_map_iframe: settings.contact_factory_map_iframe || '',
+        contact_website: settings.contact_website || '',
     });
 
     const handleSubmit = (e: FormEvent) => {
@@ -262,18 +272,6 @@ export default function Settings({ settings, success }: SettingsProps) {
 
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Embed Google Maps (bagian src dari tag iframe)</label>
-                                    <input
-                                        type="text"
-                                        value={data.contact_map_iframe}
-                                        onChange={(e) => setData('contact_map_iframe', e.target.value)}
-                                        placeholder="https://www.google.com/maps/embed?pb=..."
-                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
-                                    />
-                                    {errors.contact_map_iframe && <div className="mt-1 text-sm text-red-600">{errors.contact_map_iframe}</div>}
-                                </div>
-
-                                <div className="md:col-span-2">
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi Kontak</label>
                                     <textarea
                                         rows={3}
@@ -285,16 +283,74 @@ export default function Settings({ settings, success }: SettingsProps) {
                                     {errors.contact_description && <div className="mt-1 text-sm text-red-600">{errors.contact_description}</div>}
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Lokasi Kami (Alamat Detail)</label>
+                                {/* --- KANTOR UTAMA --- */}
+                                <div className="md:col-span-2 border-t border-gray-150 dark:border-gray-700 pt-4 mt-2">
+                                    <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Lokasi Kantor Utama</h4>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Alamat Kantor Utama</label>
                                     <input
                                         type="text"
-                                        value={data.contact_address}
-                                        onChange={(e) => setData('contact_address', e.target.value)}
-                                        placeholder="Jl. Raya Maspion No. 12, Sidoarjo"
+                                        value={data.contact_office_address}
+                                        onChange={(e) => setData('contact_office_address', e.target.value)}
+                                        placeholder="Kawasan Industri Maspion, Sidoarjo, Jawa Timur (biarkan kosong untuk default)"
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
                                     />
-                                    {errors.contact_address && <div className="mt-1 text-sm text-red-600">{errors.contact_address}</div>}
+                                    {errors.contact_office_address && <div className="mt-1 text-sm text-red-600">{errors.contact_office_address}</div>}
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Embed Google Maps Kantor Utama (bagian src dari iframe)</label>
+                                    <input
+                                        type="text"
+                                        value={data.contact_office_map_iframe}
+                                        onChange={(e) => setData('contact_office_map_iframe', e.target.value)}
+                                        placeholder="https://www.google.com/maps/embed?pb=..."
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                    />
+                                    {errors.contact_office_map_iframe && <div className="mt-1 text-sm text-red-600">{errors.contact_office_map_iframe}</div>}
+                                </div>
+
+                                {/* --- PABRIK --- */}
+                                <div className="md:col-span-2 border-t border-gray-150 dark:border-gray-700 pt-4 mt-2">
+                                    <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Lokasi Pabrik</h4>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Alamat Pabrik</label>
+                                    <input
+                                        type="text"
+                                        value={data.contact_factory_address}
+                                        onChange={(e) => setData('contact_factory_address', e.target.value)}
+                                        placeholder="Jl. Kembang Industri No. 45, Sidoarjo, Jawa Timur (biarkan kosong untuk default)"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                    />
+                                    {errors.contact_factory_address && <div className="mt-1 text-sm text-red-600">{errors.contact_factory_address}</div>}
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Embed Google Maps Pabrik (bagian src dari iframe)</label>
+                                    <input
+                                        type="text"
+                                        value={data.contact_factory_map_iframe}
+                                        onChange={(e) => setData('contact_factory_map_iframe', e.target.value)}
+                                        placeholder="https://www.google.com/maps/embed?pb=..."
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                    />
+                                    {errors.contact_factory_map_iframe && <div className="mt-1 text-sm text-red-600">{errors.contact_factory_map_iframe}</div>}
+                                </div>
+
+                                {/* --- INFO LAIN --- */}
+                                <div className="md:col-span-2 border-t border-gray-150 dark:border-gray-700 pt-4 mt-2">
+                                    <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wide">Info Tambahan Kontak</h4>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Website Resmi</label>
+                                    <input
+                                        type="text"
+                                        value={data.contact_website}
+                                        onChange={(e) => setData('contact_website', e.target.value)}
+                                        placeholder="www.voltama.id"
+                                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                                    />
+                                    {errors.contact_website && <div className="mt-1 text-sm text-red-600">{errors.contact_website}</div>}
                                 </div>
 
                                 <div>
@@ -320,6 +376,10 @@ export default function Settings({ settings, success }: SettingsProps) {
                                     />
                                     {errors.contact_hours && <div className="mt-1 text-sm text-red-600">{errors.contact_hours}</div>}
                                 </div>
+
+                                {/* Field fallback lama tetap dipertahankan tersembunyi agar form request tetap membawa property ini jika dibutuhkan oleh server logic */}
+                                <input type="hidden" value={data.contact_address} />
+                                <input type="hidden" value={data.contact_map_iframe} />
                             </div>
                         </div>
 

@@ -19,10 +19,10 @@ class SectionEditorController extends Controller
         'section_tentang_sub',
         'section_tentang_desc',
         // Section 2 — 4 Stat Cards
-        'tentang_stat1_value', 'tentang_stat1_label', 'tentang_stat1_sub',
-        'tentang_stat2_value', 'tentang_stat2_label', 'tentang_stat2_sub',
-        'tentang_stat3_value', 'tentang_stat3_label', 'tentang_stat3_sub',
-        'tentang_stat4_value', 'tentang_stat4_label', 'tentang_stat4_sub',
+        'tentang_stat1_value', 'tentang_stat1_label', 'tentang_stat1_sub', 'tentang_stat1_link',
+        'tentang_stat2_value', 'tentang_stat2_label', 'tentang_stat2_sub', 'tentang_stat2_link',
+        'tentang_stat3_value', 'tentang_stat3_label', 'tentang_stat3_sub', 'tentang_stat3_link',
+        'tentang_stat4_value', 'tentang_stat4_label', 'tentang_stat4_sub', 'tentang_stat4_link',
         // Section 2 — Overlay foto industri
         'tentang_industri_judul',
         'tentang_industri_sub',

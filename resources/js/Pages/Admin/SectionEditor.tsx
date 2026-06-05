@@ -511,15 +511,19 @@ export default function SectionEditor({ settings, heroSlides, testimonials, succ
         tentang_stat1_value: settings.tentang_stat1_value || '10+',
         tentang_stat1_label: settings.tentang_stat1_label || 'BERPENGALAMAN',
         tentang_stat1_sub: settings.tentang_stat1_sub || 'Lebih dari 10 tahun di industri kelistrikan',
+        tentang_stat1_link: settings.tentang_stat1_link || '',
         tentang_stat2_value: settings.tentang_stat2_value || '34',
         tentang_stat2_label: settings.tentang_stat2_label || 'DISTRIBUSI',
         tentang_stat2_sub: settings.tentang_stat2_sub || 'Seluruh Indonesia',
+        tentang_stat2_link: settings.tentang_stat2_link || '',
         tentang_stat3_value: settings.tentang_stat3_value || 'SNI',
         tentang_stat3_label: settings.tentang_stat3_label || 'KUALITAS TERJAMIN',
         tentang_stat3_sub: settings.tentang_stat3_sub || 'SNI & LMK',
+        tentang_stat3_link: settings.tentang_stat3_link || '',
         tentang_stat4_value: settings.tentang_stat4_value || '10',
         tentang_stat4_label: settings.tentang_stat4_label || 'GARANSI PRODUK',
         tentang_stat4_sub: settings.tentang_stat4_sub || 'Hingga 10 Tahun',
+        tentang_stat4_link: settings.tentang_stat4_link || '',
         // Section 2 — Overlay industri
         tentang_industri_judul: settings.tentang_industri_judul || 'Diproduksi dengan Teknologi Modern',
         tentang_industri_sub: settings.tentang_industri_sub || 'Di bawah pengawasan mutu ketat berstandar internasional',
@@ -676,7 +680,7 @@ export default function SectionEditor({ settings, heroSlides, testimonials, succ
                             <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-3">
                                 <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">4 Stat Card (angka statistik)</p>
                                 {[1, 2, 3, 4].map(n => (
-                                    <div key={n} className="grid grid-cols-3 gap-2">
+                                    <div key={n} className="grid grid-cols-1 md:grid-cols-4 gap-2 border-b border-gray-100 dark:border-gray-700 pb-3 last:border-b-0 last:pb-0">
                                         <div>
                                             <label className={labelClass}>Card {n} — Angka</label>
                                             <input type="text" value={data[`tentang_stat${n}_value`]} onChange={txt(`tentang_stat${n}_value`)} className={inputClass} placeholder={['10+', '34', 'SNI', '10'][n - 1]} />
@@ -688,6 +692,10 @@ export default function SectionEditor({ settings, heroSlides, testimonials, succ
                                         <div>
                                             <label className={labelClass}>Sub-label</label>
                                             <input type="text" value={data[`tentang_stat${n}_sub`]} onChange={txt(`tentang_stat${n}_sub`)} className={inputClass} />
+                                        </div>
+                                        <div>
+                                            <label className={labelClass}>Link Tautan</label>
+                                            <input type="text" value={data[`tentang_stat${n}_link`] || ''} onChange={txt(`tentang_stat${n}_link`)} className={inputClass} placeholder="https://... atau /file-path" />
                                         </div>
                                     </div>
                                 ))}

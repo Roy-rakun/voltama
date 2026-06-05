@@ -56,10 +56,10 @@ interface SectionTexts {
     tentang_heading: string;
     tentang_sub: string;
     tentang_desc: string;
-    tentang_stat1_value: string; tentang_stat1_label: string; tentang_stat1_sub: string;
-    tentang_stat2_value: string; tentang_stat2_label: string; tentang_stat2_sub: string;
-    tentang_stat3_value: string; tentang_stat3_label: string; tentang_stat3_sub: string;
-    tentang_stat4_value: string; tentang_stat4_label: string; tentang_stat4_sub: string;
+    tentang_stat1_value: string; tentang_stat1_label: string; tentang_stat1_sub: string; tentang_stat1_link?: string;
+    tentang_stat2_value: string; tentang_stat2_label: string; tentang_stat2_sub: string; tentang_stat2_link?: string;
+    tentang_stat3_value: string; tentang_stat3_label: string; tentang_stat3_sub: string; tentang_stat3_link?: string;
+    tentang_stat4_value: string; tentang_stat4_label: string; tentang_stat4_sub: string; tentang_stat4_link?: string;
     tentang_industri_judul: string;
     tentang_industri_sub: string;
     // Section 3 — Fitur
@@ -113,6 +113,18 @@ interface LandingPageProps {
     articles: Article[];
     testimonials: Testimonial[];
 }
+
+const parseEmbedUrl = (input: string | null | undefined): string => {
+    if (!input) return '';
+    const trimmed = input.trim();
+    if (trimmed.includes('<iframe')) {
+        const match = trimmed.match(/src=["']([^"']+)["']/i);
+        if (match && match[1]) {
+            return match[1];
+        }
+    }
+    return trimmed;
+};
 
 export default function LandingPage({ globalSettings, heroSlides, heroSlideInterval, sectionImages, sectionTexts, catalogs, articles, testimonials }: LandingPageProps) {
 
@@ -395,7 +407,7 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
                                 )}
                             </div>
 
-                            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-md">
+                            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl text-justify whitespace-pre-line">
                                 {sectionTexts?.tentang_desc || 'Voltama merupakan brand dari PT. Sinar Intan Putra Nusa, perusahaan manufaktur perlengkapan listrik yang berkomitmen menghadirkan produk berkualitas, aman, dan terpercaya.'}
                             </p>
                         </div>
@@ -428,18 +440,40 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
                         className={`grid grid-cols-2 md:grid-cols-4 gap-6 transition-all duration-1000 delay-400 ${isVis('tentang-sec') ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}
                     >
                         {[
-                            { icon: <Clock className="text-[#ffc400]" size={28} />, value: sectionTexts?.tentang_stat1_value || '10+', label: sectionTexts?.tentang_stat1_label || 'BERPENGALAMAN', sub: sectionTexts?.tentang_stat1_sub || 'Lebih dari 10 tahun di industri kelistrikan' },
-                            { icon: <Globe className="text-[#ffc400]" size={28} />, value: sectionTexts?.tentang_stat2_value || '34', label: sectionTexts?.tentang_stat2_label || 'DISTRIBUSI', sub: sectionTexts?.tentang_stat2_sub || 'Seluruh Indonesia' },
-                            { icon: <BadgeCheck className="text-[#ffc400]" size={28} />, value: sectionTexts?.tentang_stat3_value || 'SNI', label: sectionTexts?.tentang_stat3_label || 'KUALITAS TERJAMIN', sub: sectionTexts?.tentang_stat3_sub || 'SNI & LMK' },
-                            { icon: <ShieldCheck className="text-[#ffc400]" size={28} />, value: sectionTexts?.tentang_stat4_value || '10', label: sectionTexts?.tentang_stat4_label || 'GARANSI PRODUK', sub: sectionTexts?.tentang_stat4_sub || 'Hingga 10 Tahun' },
-                        ].map((item, idx) => (
-                            <div key={idx} className="bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition duration-300">
-                                <div className="flex justify-center mb-3">{item.icon}</div>
-                                <div className="text-2xl font-black text-gray-950 dark:text-white mb-1">{item.value}</div>
-                                <div className="text-[10px] font-black text-gray-950 dark:text-gray-100 uppercase tracking-widest mb-1">{item.label}</div>
-                                <div className="text-[11px] text-gray-500 leading-relaxed">{item.sub}</div>
-                            </div>
-                        ))}
+                            { icon: <Clock className="text-[#ffc400]" size={28} />, value: sectionTexts?.tentang_stat1_value || '10+', label: sectionTexts?.tentang_stat1_label || 'BERPENGALAMAN', sub: sectionTexts?.tentang_stat1_sub || 'Lebih dari 10 tahun di industri kelistrikan', link: sectionTexts?.tentang_stat1_link },
+                            { icon: <Globe className="text-[#ffc400]" size={28} />, value: sectionTexts?.tentang_stat2_value || '34', label: sectionTexts?.tentang_stat2_label || 'DISTRIBUSI', sub: sectionTexts?.tentang_stat2_sub || 'Seluruh Indonesia', link: sectionTexts?.tentang_stat2_link },
+                            { icon: <BadgeCheck className="text-[#ffc400]" size={28} />, value: sectionTexts?.tentang_stat3_value || 'SNI', label: sectionTexts?.tentang_stat3_label || 'KUALITAS TERJAMIN', sub: sectionTexts?.tentang_stat3_sub || 'SNI & LMK', link: sectionTexts?.tentang_stat3_link },
+                            { icon: <ShieldCheck className="text-[#ffc400]" size={28} />, value: sectionTexts?.tentang_stat4_value || '10', label: sectionTexts?.tentang_stat4_label || 'GARANSI PRODUK', sub: sectionTexts?.tentang_stat4_sub || 'Hingga 10 Tahun', link: sectionTexts?.tentang_stat4_link },
+                        ].map((item, idx) => {
+                            const CardContent = (
+                                <>
+                                    <div className="flex justify-center mb-3">{item.icon}</div>
+                                    <div className="text-2xl font-black text-gray-950 dark:text-white mb-1">{item.value}</div>
+                                    <div className="text-[10px] font-black text-gray-950 dark:text-gray-100 uppercase tracking-widest mb-1">{item.label}</div>
+                                    <div className="text-[11px] text-gray-500 leading-relaxed">{item.sub}</div>
+                                </>
+                            );
+
+                            if (item.link) {
+                                return (
+                                    <a
+                                        key={idx}
+                                        href={item.link.startsWith('http') ? item.link : `https://${item.link}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition duration-300 block hover:border-[#ffc400] cursor-pointer"
+                                    >
+                                        {CardContent}
+                                    </a>
+                                );
+                            }
+
+                            return (
+                                <div key={idx} className="bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition duration-300">
+                                    {CardContent}
+                                </div>
+                            );
+                        })}
                     </div>
 
                     {/* Bottom Image: Foto Pekerja / Industri */}
@@ -969,148 +1003,155 @@ export default function LandingPage({ globalSettings, heroSlides, heroSlideInter
                 className="observe-section py-24 bg-white dark:bg-[#111111] transition-colors duration-300 relative overflow-hidden"
             >
                 <div className="mx-auto max-w-7xl px-6 lg:px-10 relative z-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        {/* Kolom Kiri: Detail Info & Jam Operasional */}
-                        <div className="space-y-8 text-left">
-                            <div className="space-y-3">
-                                <div className="w-10 h-1 bg-[#ffc400] rounded-full" />
-                                <h2 className="text-3xl md:text-5xl font-black text-gray-950 dark:text-white leading-tight">
-                                    Hubungi Kami &<br />
-                                    <span className="text-[#ffc400]">Kunjungi Lokasi Kami</span>
-                                </h2>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl">
-                                    {globalSettings.contact_description || 'Kami siap membantu memenuhi kebutuhan kabel listrik premium berstandar SNI untuk proyek Anda. Hubungi tim kami atau kunjungi kantor operasional kami.'}
-                                </p>
-                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Card Lokasi */}
-                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4 md:col-span-2">
-                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
-                                        <MapPin size={22} strokeWidth={2.5} />
+                    <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                        <div className="w-10 h-1 bg-[#ffc400] rounded-full mx-auto" />
+                        <h2 className="text-3xl md:text-5xl font-black text-gray-950 dark:text-white leading-tight">
+                            Hubungi Kami &<br />
+                            <span className="text-[#ffc400]">Kunjungi Lokasi Kami</span>
+                        </h2>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                            {globalSettings.contact_description || 'Kami siap membantu memenuhi kebutuhan kabel listrik premium berstandar SNI untuk proyek Anda. Hubungi tim kami atau kunjungi lokasi operasional kami.'}
+                        </p>
+                    </div>
+
+                    <div className="space-y-16">
+                        {/* 1. Lokasi Kantor Utama */}
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            {/* Kiri: Alamat Kantor */}
+                            <div className="lg:col-span-5 space-y-4">
+                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-8 rounded-3xl flex gap-4 shadow-sm hover:shadow-md transition">
+                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3.5 rounded-2xl shrink-0 h-fit">
+                                        <MapPin size={26} strokeWidth={2.5} />
                                     </div>
-                                    <div className="space-y-1">
-                                        <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Lokasi Kami</h4>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                                            {globalSettings.contact_address || globalSettings.footer_address || 'Kawasan Industri Maspion, Sidoarjo, Jawa Timur'}
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-black text-gray-950 dark:text-white uppercase tracking-wider">Kantor Utama</h3>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed text-justify">
+                                            {globalSettings.contact_office_address || globalSettings.contact_address || globalSettings.footer_address || 'Kawasan Industri Maspion, Sidoarjo, Jawa Timur'}
                                         </p>
                                     </div>
                                 </div>
+                            </div>
 
-                                {/* Card Hari Operasional */}
-                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4">
-                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
-                                        <Calendar size={22} strokeWidth={2.5} />
+                            {/* Kanan: Map Kantor */}
+                            <div className="lg:col-span-7 h-[280px] md:h-[320px]">
+                                <div className="w-full h-full rounded-[32px] overflow-hidden shadow-2xl border border-gray-150 dark:border-gray-800">
+                                    <iframe
+                                        src={parseEmbedUrl(globalSettings.contact_office_map_iframe) || parseEmbedUrl(globalSettings.contact_map_iframe) || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15825.867909386348!2d112.7237305!3d-7.4134444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e6a2eb24ab83%3A0x6002f8319f39002!2sKawasan%20Industri%20Maspion!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"}
+                                        className="w-full h-full border-0"
+                                        allowFullScreen
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        title="Google Maps Kantor Voltama"
+                                    ></iframe>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 2. Lokasi Pabrik */}
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            {/* Kiri: Alamat Pabrik */}
+                            <div className="lg:col-span-5 space-y-4">
+                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-8 rounded-3xl flex gap-4 shadow-sm hover:shadow-md transition">
+                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3.5 rounded-2xl shrink-0 h-fit">
+                                        <MapPin size={26} strokeWidth={2.5} />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <h3 className="text-lg font-black text-gray-950 dark:text-white uppercase tracking-wider">Pabrik</h3>
+                                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed text-justify">
+                                            {globalSettings.contact_factory_address || 'Kawasan Industri Maspion, Sidoarjo, Jawa Timur'}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Kanan: Map Pabrik */}
+                            <div className="lg:col-span-7 h-[280px] md:h-[320px]">
+                                <div className="w-full h-full rounded-[32px] overflow-hidden shadow-2xl border border-gray-150 dark:border-gray-800">
+                                    <iframe
+                                        src={parseEmbedUrl(globalSettings.contact_factory_map_iframe) || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15825.867909386348!2d112.7237305!3d-7.4134444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e6a2eb24ab83%3A0x6002f8319f39002!2sKawasan%20Industri%20Maspion!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"}
+                                        className="w-full h-full border-0"
+                                        allowFullScreen
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        title="Google Maps Pabrik Voltama"
+                                    ></iframe>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 3. Detail Kontak & Operasional (Tengah) */}
+                        <div className="pt-12 border-t border-gray-150 dark:border-gray-800">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center max-w-5xl mx-auto">
+                                {/* Hari & Jam Ops */}
+                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex flex-col items-center justify-center gap-3">
+                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl w-fit">
+                                        <Clock size={24} strokeWidth={2.5} />
                                     </div>
                                     <div className="space-y-1">
-                                        <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Hari Operasional</h4>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest">Jam & Hari Operasional</h4>
+                                        <p className="text-sm font-bold text-gray-900 dark:text-white">
                                             {globalSettings.contact_days || 'Senin - Sabtu (Minggu Libur)'}
                                         </p>
-                                    </div>
-                                </div>
-
-                                {/* Card Jam Operasional */}
-                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4">
-                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
-                                        <Clock size={22} strokeWidth={2.5} />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Jam Operasional</h4>
-                                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        <p className="text-xs text-gray-600 dark:text-gray-400">
                                             {globalSettings.contact_hours || '08:00 - 17:00 WIB'}
                                         </p>
                                     </div>
                                 </div>
 
-                                {/* Card WhatsApp (Opsional) */}
-                                {globalSettings.footer_whatsapp && (
-                                    <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4">
-                                        <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
-                                            <svg className="h-[22px] w-[22px] fill-current" viewBox="0 0 24 24">
-                                                <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 001.333 4.993L2 22l5.233-1.371a9.936 9.936 0 004.777 1.216h.005c5.505 0 9.99-4.478 9.99-9.985C22.007 6.476 17.519 2 12.012 2zm6.757 14.283c-.277.78-1.597 1.526-2.195 1.6-.597.075-1.196.34-3.842-.715-2.646-1.055-4.305-3.766-4.437-3.942-.132-.177-1.077-1.432-1.077-2.729s.677-1.936.92-2.19c.243-.255.53-.32.707-.32a.855.855 0 01.62.292c.176.292.62 1.503.673 1.614.053.11.088.24.017.382-.07.143-.105.23-.212.355-.106.126-.22.28-.318.381-.11.11-.225.23-.097.45.128.22.57 1.012 1.22 1.59.838.745 1.547.975 1.77.1083.22.108.484-.11.61-.27.124-.16.27-.08.41-.03.14.05.885.418 1.037.493.153.076.255.112.293.177.037.065.037.377-.24.783z" />
-                                            </svg>
-                                        </div>
-                                        <div className="space-y-1">
-                                            <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">WhatsApp</h4>
+                                {/* WhatsApp & Telepon */}
+                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex flex-col items-center justify-center gap-3">
+                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl w-fit">
+                                        <Phone size={24} strokeWidth={2.5} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest">Hubungi Kami</h4>
+                                        {globalSettings.footer_whatsapp && (
                                             <a 
                                                 href={`https://wa.me/${globalSettings.footer_whatsapp.replace(/[^0-9]/g, '')}`} 
                                                 target="_blank" 
                                                 rel="noopener noreferrer" 
-                                                className="text-sm text-gray-600 dark:text-gray-400 hover:underline hover:text-[#ffc400] transition block"
+                                                className="text-sm font-bold text-gray-900 dark:text-white hover:underline hover:text-[#ffc400] transition block"
                                             >
-                                                {globalSettings.footer_whatsapp}
+                                                WA: {globalSettings.footer_whatsapp}
                                             </a>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Card Telepon Kantor (Opsional) */}
-                                {globalSettings.footer_phone && (
-                                    <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4">
-                                        <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
-                                            <Phone size={22} strokeWidth={2.5} />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Telepon</h4>
+                                        )}
+                                        {globalSettings.footer_phone && (
                                             <a 
                                                 href={`tel:${globalSettings.footer_phone}`} 
-                                                target="_blank" 
-                                                rel="noopener noreferrer" 
-                                                className="text-sm text-gray-600 dark:text-gray-400 hover:underline hover:text-[#ffc400] transition block"
+                                                className="text-xs text-gray-600 dark:text-gray-400 hover:underline hover:text-[#ffc400] transition block"
                                             >
-                                                {globalSettings.footer_phone}
+                                                Telp: {globalSettings.footer_phone}
                                             </a>
-                                        </div>
+                                        )}
                                     </div>
-                                )}
+                                </div>
 
-                                {/* Card Email Kantor (Opsional) */}
-                                {globalSettings.footer_email && (
-                                    <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex gap-4 md:col-span-2">
-                                        <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl shrink-0 h-fit">
-                                            <Mail size={22} strokeWidth={2.5} />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <h4 className="text-sm font-black text-gray-950 dark:text-white uppercase tracking-wider">Email Resmi</h4>
+                                {/* Email & Website */}
+                                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-150 dark:border-gray-800 p-6 rounded-2xl flex flex-col items-center justify-center gap-3">
+                                    <div className="bg-[#ffc400]/15 text-[#ffc400] p-3 rounded-xl w-fit">
+                                        <Globe size={24} strokeWidth={2.5} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest">Email & Website</h4>
+                                        {globalSettings.footer_email && (
                                             <a 
                                                 href={`mailto:${globalSettings.footer_email}`} 
-                                                target="_blank" 
-                                                rel="noopener noreferrer" 
-                                                className="text-sm text-gray-600 dark:text-gray-400 hover:underline hover:text-[#ffc400] transition block"
+                                                className="text-sm font-bold text-gray-900 dark:text-white hover:underline hover:text-[#ffc400] transition block"
                                             >
                                                 {globalSettings.footer_email}
                                             </a>
-                                        </div>
+                                        )}
+                                        <a 
+                                            href={globalSettings.contact_website ? (globalSettings.contact_website.startsWith('http') ? globalSettings.contact_website : `https://${globalSettings.contact_website}`) : 'https://voltama.id'} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer" 
+                                            className="text-xs text-gray-600 dark:text-gray-400 hover:underline hover:text-[#ffc400] transition block"
+                                        >
+                                            {globalSettings.contact_website || 'www.voltama.id'}
+                                        </a>
                                     </div>
-                                )}
-                            </div>                          </div>
-                        </div>
-
-                        {/* Kolom Kanan: Google Maps Map Embed */}
-                        <div className="w-full relative h-[320px] md:h-[400px] lg:h-full lg:min-h-[420px]">
-                            {globalSettings.contact_map_iframe ? (
-                                <div className="w-full h-full rounded-[32px] overflow-hidden shadow-2xl border border-gray-150 dark:border-gray-800">
-                                    <iframe
-                                        src={globalSettings.contact_map_iframe}
-                                        className="w-full h-full border-0"
-                                        allowFullScreen
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                        title="Google Maps Lokasi Voltama"
-                                    ></iframe>
                                 </div>
-                            ) : (
-                                /* Fallback Default Google Maps */
-                                <div className="w-full h-full rounded-[32px] overflow-hidden shadow-2xl border border-gray-150 dark:border-gray-800">
-                                    <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15825.867909386348!2d112.7237305!3d-7.4134444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e6a2eb24ab83%3A0x6002f8319f39002!2sKawasan%20Industri%20Maspion!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
-                                        className="w-full h-full border-0"
-                                        allowFullScreen
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                        title="Google Maps Lokasi Voltama Fallback"
-                                    ></iframe>
-                                </div>
-                            )}
+                            </div>
                         </div>
                     </div>
                 </div>

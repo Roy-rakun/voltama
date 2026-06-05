@@ -23,7 +23,10 @@ class SettingController extends Controller
             'footer_facebook', 'footer_instagram', 'footer_youtube', 'footer_whatsapp',
             'footer_powered_by_text', 'footer_powered_by_link',
             'footer_description', 'footer_tiktok',
-            'contact_map_iframe', 'contact_description', 'contact_address', 'contact_hours', 'contact_days'
+            'contact_map_iframe', 'contact_description', 'contact_address', 'contact_hours', 'contact_days',
+            'contact_office_address', 'contact_office_map_iframe',
+            'contact_factory_address', 'contact_factory_map_iframe',
+            'contact_website'
         ];
 
         $settings = [];
@@ -43,28 +46,33 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'website_title'          => 'nullable|string|max:255',
-            'website_logo_file'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4096',
-            'website_favicon_file'   => 'nullable|image|mimes:ico,png,jpg,jpeg,svg|max:2048',
-            'facebook_pixel'         => 'nullable|string',
-            'google_analytics'       => 'nullable|string',
-            'footer_copyright'       => 'nullable|string|max:255',
-            'footer_address'         => 'nullable|string',
-            'footer_phone'           => 'nullable|string|max:100',
-            'footer_email'           => 'nullable|email|max:255',
-            'footer_facebook'        => 'nullable|string|max:255',
-            'footer_instagram'       => 'nullable|string|max:255',
-            'footer_youtube'         => 'nullable|string|max:255',
-            'footer_whatsapp'        => 'nullable|string|max:100',
-            'footer_powered_by_text' => 'nullable|string|max:100',
-            'footer_powered_by_link' => 'nullable|string|max:255',
-            'footer_description'     => 'nullable|string',
-            'footer_tiktok'          => 'nullable|string|max:255',
-            'contact_map_iframe'     => 'nullable|string',
-            'contact_description'    => 'nullable|string',
-            'contact_address'        => 'nullable|string',
-            'contact_hours'          => 'nullable|string|max:255',
-            'contact_days'           => 'nullable|string|max:255',
+            'website_title'              => 'nullable|string|max:255',
+            'website_logo_file'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4096',
+            'website_favicon_file'       => 'nullable|image|mimes:ico,png,jpg,jpeg,svg|max:2048',
+            'facebook_pixel'             => 'nullable|string',
+            'google_analytics'           => 'nullable|string',
+            'footer_copyright'           => 'nullable|string|max:255',
+            'footer_address'             => 'nullable|string',
+            'footer_phone'               => 'nullable|string|max:100',
+            'footer_email'               => 'nullable|email|max:255',
+            'footer_facebook'            => 'nullable|string|max:255',
+            'footer_instagram'           => 'nullable|string|max:255',
+            'footer_youtube'             => 'nullable|string|max:255',
+            'footer_whatsapp'            => 'nullable|string|max:100',
+            'footer_powered_by_text'     => 'nullable|string|max:100',
+            'footer_powered_by_link'     => 'nullable|string|max:255',
+            'footer_description'         => 'nullable|string',
+            'footer_tiktok'              => 'nullable|string|max:255',
+            'contact_map_iframe'         => 'nullable|string',
+            'contact_description'        => 'nullable|string',
+            'contact_address'            => 'nullable|string',
+            'contact_hours'              => 'nullable|string|max:255',
+            'contact_days'               => 'nullable|string|max:255',
+            'contact_office_address'     => 'nullable|string',
+            'contact_office_map_iframe'  => 'nullable|string',
+            'contact_factory_address'    => 'nullable|string',
+            'contact_factory_map_iframe' => 'nullable|string',
+            'contact_website'            => 'nullable|string|max:255',
         ]);
 
         $textFields = [
@@ -73,7 +81,10 @@ class SettingController extends Controller
             'footer_facebook', 'footer_instagram', 'footer_youtube', 'footer_whatsapp',
             'footer_powered_by_text', 'footer_powered_by_link',
             'footer_description', 'footer_tiktok',
-            'contact_map_iframe', 'contact_description', 'contact_address', 'contact_hours', 'contact_days'
+            'contact_map_iframe', 'contact_description', 'contact_address', 'contact_hours', 'contact_days',
+            'contact_office_address', 'contact_office_map_iframe',
+            'contact_factory_address', 'contact_factory_map_iframe',
+            'contact_website'
         ];
 
         foreach ($textFields as $field) {

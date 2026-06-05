@@ -29,7 +29,10 @@ class FrontendController extends Controller
             'footer_marketplace_logo', 'footer_marketplace_link',
             'footer_powered_by_text', 'footer_powered_by_link',
             'footer_description', 'footer_tiktok',
-            'contact_map_iframe', 'contact_description', 'contact_address', 'contact_hours', 'contact_days'
+            'contact_map_iframe', 'contact_description', 'contact_address', 'contact_hours', 'contact_days',
+            'contact_office_address', 'contact_office_map_iframe',
+            'contact_factory_address', 'contact_factory_map_iframe',
+            'contact_website'
         ];
 
         $settings = [];
@@ -106,15 +109,19 @@ class FrontendController extends Controller
             'tentang_stat1_value'   => Setting::getValue('tentang_stat1_value', '10+'),
             'tentang_stat1_label'   => Setting::getValue('tentang_stat1_label', 'BERPENGALAMAN'),
             'tentang_stat1_sub'     => Setting::getValue('tentang_stat1_sub',   'Lebih dari 10 tahun di industri kelistrikan'),
+            'tentang_stat1_link'    => Setting::getValue('tentang_stat1_link',    ''),
             'tentang_stat2_value'   => Setting::getValue('tentang_stat2_value', '34'),
             'tentang_stat2_label'   => Setting::getValue('tentang_stat2_label', 'DISTRIBUSI'),
             'tentang_stat2_sub'     => Setting::getValue('tentang_stat2_sub',   'Seluruh Indonesia'),
+            'tentang_stat2_link'    => Setting::getValue('tentang_stat2_link',    ''),
             'tentang_stat3_value'   => Setting::getValue('tentang_stat3_value', 'SNI'),
             'tentang_stat3_label'   => Setting::getValue('tentang_stat3_label', 'KUALITAS TERJAMIN'),
             'tentang_stat3_sub'     => Setting::getValue('tentang_stat3_sub',   'SNI & LMK'),
+            'tentang_stat3_link'    => Setting::getValue('tentang_stat3_link',    ''),
             'tentang_stat4_value'   => Setting::getValue('tentang_stat4_value', '10'),
             'tentang_stat4_label'   => Setting::getValue('tentang_stat4_label', 'GARANSI PRODUK'),
             'tentang_stat4_sub'     => Setting::getValue('tentang_stat4_sub',   'Hingga 10 Tahun'),
+            'tentang_stat4_link'    => Setting::getValue('tentang_stat4_link',    ''),
             // Section 2 — Overlay industri
             'tentang_industri_judul'=> Setting::getValue('tentang_industri_judul', 'Diproduksi dengan Teknologi Modern'),
             'tentang_industri_sub'  => Setting::getValue('tentang_industri_sub',   'Di bawah pengawasan mutu ketat berstandar internasional'),
