@@ -100,7 +100,15 @@ export default function Index({ pages, success }: IndexProps) {
                                                             year: 'numeric'
                                                         })}
                                                     </td>
-                                                    <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium space-x-2">
+                                                    <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium space-x-3">
+                                                        <a
+                                                            href={route('page.show', page.slug)}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
+                                                        >
+                                                            Lihat
+                                                        </a>
                                                         <Link
                                                             href={route('admin.pages.edit', page.id)}
                                                             className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
