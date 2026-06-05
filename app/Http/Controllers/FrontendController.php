@@ -292,7 +292,7 @@ class FrontendController extends Controller
     {
         $globalSettings = $this->getGlobalSettings();
         
-        $article = Article::where('slug', $slug)->where('is_active', true)->firstOrFail();
+        $article = Article::with('category')->where('slug', $slug)->where('is_active', true)->firstOrFail();
         
         // Increment view count safely
         $article->increment('views');

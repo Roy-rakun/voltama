@@ -3,6 +3,12 @@ import { Head, Link } from '@inertiajs/react';
 import React from 'react';
 import { Calendar, Eye, ArrowLeft, ArrowRight } from 'lucide-react';
 
+interface Category {
+    id: number;
+    name: string;
+    slug: string;
+}
+
 interface Article {
     id: number;
     title: string;
@@ -11,6 +17,7 @@ interface Article {
     image_path: string;
     views: number;
     created_at: string;
+    category?: Category;
 }
 
 interface ArticleDetailProps {
@@ -25,9 +32,51 @@ const cleanContent = (htmlContent: string) => {
 };
 
 export default function ArticleDetail({ globalSettings, article, relatedArticles }: ArticleDetailProps) {
+    const cleanDesc = (htmlContent: string) => {
+        if (!htmlContent) return '';
+        const noHtml = htmlContent.replace(/<[^>]*>/g, '');
+        return noHtml
+            .replace(/\u00a0/g, ' ')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/\s+/g, ' ')
+            .trim();
+    };
+
+    const rawExcerpt = cleanDesc(article.content);
+    const excerpt = rawExcerpt.substring(0, 160) + (rawExcerpt.length > 160 ? '...' : '');
+
+    // Buat keywords dari kategori artikel + default keywords + kata dari judul
+    const categoryName = article.category?.name ? `${article.category.name}, ` : '';
+    const titleKeywords = article.title.toLowerCase().replace(/[^a-zA-Z0-9\s]/g, '').split(' ').filter(Boolean).join(', ');
+    const keywords = `${categoryName}${titleKeywords}, voltama, tips kelistrikan, alat listrik, instalasi listrik`;
+
+    // Ambil URL saat ini
+    const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+
     return (
         <FrontendLayout globalSettings={globalSettings} isInnerPage={true}>
-            <Head title={`${article.title} - ${globalSettings.website_title || 'Voltama'}`} />
+            <Head>
+                <title>{`${article.title} - ${globalSettings.website_title || 'Voltama'}`}</title>
+                <meta name="description" content={excerpt} />
+                <meta name="keywords" content={keywords} />
+                
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="article" />
+                <meta property="og:title" content={article.title} />
+                <meta property="og:description" content={excerpt} />
+                <meta property="og:image" content={article.image_path || '/images/logo.png'} />
+                <meta property="og:url" content={currentUrl} />
+                <meta property="og:site_name" content={globalSettings.website_title || 'Voltama'} />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={article.title} />
+                <meta name="twitter:description" content={excerpt} />
+                <meta name="twitter:image" content={article.image_path || '/images/logo.png'} />
+            </Head>
 
             <div className="py-12 bg-gray-50 dark:bg-[#0c0c0c] transition-colors duration-300 min-h-screen">
                 <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
